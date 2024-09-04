@@ -1,0 +1,102 @@
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage[utf8]{inputenc}
+\usepackage{tcolorbox}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tabto}
+\usepackage{parskip}
+\usepackage{pgfplots}
+\usepackage{amsthm}
+\usepackage{xfrac}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage{esint}
+\usepackage{tikz}
+\theoremstyle{plain}
+\usepackage[margin=1in]{geometry}
+
+\pgfplotsset{width=10cm,compat=1.9}
+
+\newtheorem*{theorem*}{Theorem}
+%% this allows for theorems which are not automatically numbered
+
+% \newtheorem{definition}{Definition}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{lemma}{Lemma}
+% \newtheorem{example}{Example}
+
+\theoremstyle{plain}
+\newcounter{dummy} \numberwithin{dummy}{subsection}
+
+\newtheorem{lemma}[dummy]{Lemma}
+\theoremstyle{definition}
+\newtheorem{example}[dummy]{Example}
+\AtBeginEnvironment{example}{%
+  \pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}%
+}
+\AtEndEnvironment{example}{\popQED\endexample}
+\newtheorem{theorem}[dummy]{Theorem}
+\newtheorem{corollary}[dummy]{Corollary}
+\newtheorem{definition}[dummy]{Definition}
+\newtheorem{exercise}[dummy]{Exercise}
+\theoremstyle{remark}
+\newtheorem*{solution}{Solution}
+
+% \newtheorem{pf}[dummy]{Proof}
+
+% \renewcommand\theequation{\thesubsection.\arabic{equation}}
+\counterwithin{equation}{subsection}
+
+\usepackage{lineno}
+
+
+\newcommand{\xx}{\times}
+\newcommand{\<}{\left\langle}
+\renewcommand{\>}{\right\rangle}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\bnabla}{\boldsymbol\nabla}
+\newcommand{\lap}{\boldsymbol\nabla^2}
+\newcommand{\QQ}{\mathbb{Q}}
+% \renewcommand{\and}{\cap}
+% \renewcommand{\or}{\cup}
+\renewcommand{\it}[1]{\textit{#1}}
+\renewcommand{\bf}[1]{\textbf{#1}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\proj}[2]{\operatorname{proj}_{#1}#2}
+\newcommand{\comp}[2]{\operatorname{comp}_{#1}#2}
+\newcommand{\vect}[1]{\overrightarrow{#1}}
+\renewcommand{\picture}[2]{\begin{figure}[h!]
+    \centering
+    \includegraphics[width=#1]{#2}
+\end{figure}}
+% \renewcommand{\mag}[1]{\left|\left|#1\right|\right|}
+\newcommand{\dvi}[2]{\dd #1/\dd #2}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\ihat}{\vec{\hat{\imath}}}
+\newcommand{\jhat}{\vec{\hat{\jmath}}}
+\newcommand{\khat}{\vec{\hat{k}}}
+\newcommand{\curltext}{\operatorname{curl}\,}
+\newcommand{\pdvv}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+\newcommand{\divtext}{\operatorname{div}\,}
+\newcommand{\crossprod}[6]{\begin{vmatrix}
+\ihat & \jhat & \khat \\
+#1 & #2 & #3 \\
+#4 & #5 & #6\end{vmatrix}
+}
+\newcommand{\curlmatrix}[3]{\begin{vmatrix}
+    \ihat & \jhat & \khat \\
+    \pdv{}{x} & \pdv{}{y} & \pdv{}{z} \\
+    #1 & #2 & #3
+\end{vmatrix}}
+\graphicspath{{photos/}}
+\usepgfplotslibrary{fillbetween}% <- changed

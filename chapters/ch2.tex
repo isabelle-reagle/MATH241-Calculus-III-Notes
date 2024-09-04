@@ -1,0 +1,395 @@
+\section{Vector Functions}
+\textit{Chapter 13: Page 849}
+\subsection{Vector Functions and Space Curves}
+In general, a function is just a mapping between an input set (domain) and an output set (range). We are most interested in functions that output three-dimensional vectors--that is, their range is \(\RR^3\). 
+\begin{example}
+    If \(\vec{r}(t) = \< t^3, \ln(3-t), \sqrt t\>\), then the component functions are 
+    \[f(t)=t^3\quad g(t)=\ln(3-t)\quad h(t)=\sqrt t\]
+    By convention, the domain of \(\vec r\) consists of all \(t\) values for which \it{all} component functions are defined. Because \(f(t)\) is defined for all \(t\in\RR\), \(g(t)\) is defined when \(t\in[0, 3)\) and \(h(t)\) is defined when \(t\in[0, \infty)\), \(\vec r(t)\) is defined for \(t\in [0, 3)\).
+\end{example}
+The \bf{limit} of a vector function \(\vec r\) is defined by taking the limits of the component functions.
+\begin{definition}
+    If \(\vec r(t)=\<f(t), g(t), h(t)\>\), then
+    \[\lim_{t\to a}\vec r(t) = \<\lim_{t\to a}f(t), \lim_{t\to a}g(t), \lim_{t\to a}h(t)\>\] provided the limits of the component functions exist.
+\end{definition}
+\begin{example}
+    Find \(\lim_{t\to0}\vec r(t)\) if \[ \vec r(t)=(1+t^3)\ihat + te^{-t}\jhat + \frac{\sin t}{t}\khat \]\bf{Solution: }
+    \begin{align*}
+        \vec L = \lim_{t\to0}\vec r(t) &= \bqty{\lim_{t\to 0}1+t^3}\ihat + \bqty{\lim_{t\to 0}\frac{t}{e^t}}\jhat + \bqty{\lim_{t\to 0}\frac{\sin t}{t}}\khat \\
+        \intertext{Applying L'Hopital's rule,}
+        \vec L &= \bqty{1}\ihat + \bqty{0}\jhat + \bqty{\lim_{t\to 0}\frac{\cos t}{1}}\khat \\
+        &= \<1, 0, 1\>.
+    \end{align*}
+\end{example}
+\begin{definition}
+    A vector function \(\vec r(t)\) is continuous at \(a\) if 
+    \[ \lim_{t\to a}\vec r(t) = \vec r(a) \]
+\end{definition}
+There is a close connection between continuous vector functions and space curves. Suppose that \(f\), \(g\), and \(h\) are all continuous real-valued functions on an interval \(I\). Then, the set of all points \((x,y,z)\) in space, where \[ x=f(t)\quad y=g(t)\quad z=h(t) \]
+for \(t\in I\), is called a \bf{space curve}. The above equations are called the \it{parametric equations} of \(C\) and \(t\) is called a \it{parameter}. We can think of \(C\) as being traced out by a moving particle whose position at time \(t_0\) is \((f(t_0), g(t_0), h(t_0))\). If we have a vector-valued function \[ \vec r(t) = \<f(t), g(t), h(t)\>, \] then \( \vec r(t_0) \) describes the position of the particle at \(t=t_0\). 
+\begin{example}
+    Describe the curve defined by the vector-values function \[ \vec r(t) = \<1+t, 2+5t, -1+6t\> \]\bf{Solution: }The corresponding parametric equations are \[x = 1+t\quad y=2+5t\quad -1+6t \] which we can recognize as the parametric equations of a line passing through \(P_0(1, 2, -1)\) parallel to the vector \(\vec v = \<1, 5, 6\>\). This line has equation
+    \[\vec r(t)= \<1, 2, -1\> + t\<1, 5, 6\>.\]
+\end{example}
+We can also represent curves in \(\RR^2\) with vector notation. For instance, the surface described by equations \(x=t^2-2t\) and \(y=t+1\) can be represented with the vector equation 
+\[ \vec r(t) = \< t^2-2t, t+1\>. \]
+\begin{example}
+    Describe the curve with vector equation 
+    \[ \vec r(t) = \<\cos t, \sin t, t\> \]
+    \bf{Solution: }Since \(x^2+y^2 = \cos^2t+\sin^2t=1\), the curve must lie on the circle of radius one centered about the \(z\) axis. Because \(z\) is linearly correlated with \(t\), the \(z\) coordinate is increasing at a constant rate as the \(x\) and \(y\) coordinates trace a circle. This describes a helix shape.
+\end{example}
+\begin{example}
+    Find a vector equation and parametric equations for the line segment that connects the points \(P(1, 3, -2)\) and \(Q(2, -1, 3)\).\par\bf{Solution: }First, define \(\vec v = \overrightarrow{QP} = \<1, -4, 5\>\). Then, the vector equation for the line is
+    \[ \<1, 3, -2\> + t\<1, -4, 5\> \] 
+    The corresponding parametric equations are 
+    \[ x=1+t\quad y=3-4t\quad z=-2+5t \]
+    If we limit the line segment to only include the points between (and including) \(P\) and \(Q\), then we limit \(t\) to the domain \([0, 1]\).
+\end{example}
+\begin{example}
+    Find a vector function that represents the curve of intersection of the cylinder \(x^2+y^2=1\) and the plane \(y+z=2\).\par\bf{Solution: }The curve of intersection satisfies both equations. The first equation tells us that \(x\) and \(y\) can be described by the parametric equations \(x=\cos t\) and \(y=\sin t\) for \(t\in[0, 2\pi]\). The second equation tells us that \(z=2-y\), which we can rewrite as \(2-\sin t\). Therefore, the vector function is,
+    \[ \vec r(t) = \<\cos t, \sin t, 2-\sin t\>, \quad t\in [0, 2\pi] \]
+    This is known as a \it{paramaterization} of the curve.
+\end{example}
+\subsection{Derivatives and Integrals of Vector Functions}
+omg we're actually doing calculus now lesgo
+\subsubsection{Derivatives}
+The derivative of a vector function is defined similarly as for real-valued functions:
+\[ \dv{\vec r}{t}\biggr|_{t=t_0} = \lim_{h\to 0}\frac{\vec r(t_0 + h) - \vec r(t_0)}{h}\]
+We call \(\vec r'(t_0)\) the \bf{tangent vector} to \(\vec r\) at \(t=t_0\), and the line \[ \vec L = \vec r(t_0) + \vec r'(t_0)(t-t_0) \] the \bf{tangent line} to \(\vec r\) at \(t=t_0\).
+\begin{theorem}
+    If \(\vec r(t)=\<f_1(t), f_2(t), f_3(t)\>\), where \(f_1\), \(f_2\), and \(f_3\) are differentiable real-valued functions, then \(\vec r'(t) = \<f_1'(t), f_2'(t), f_3'(t)\>\).
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+        \vec r'(t) &= \lim_{h\to 0}\frac{\vec r(t + h) - r(t)}{h} \\
+        &= \lim_{h\to 0}\frac{1}{h}\bqty{f_1(t+h)\ihat + f_2(t+h)\jhat + f_3(t+h)\khat - f_1(t) - f_2(t) - f_3(t)} \\
+        &= \lim_{h\to 0}\bqty{\frac{f_1(t+h)-f_1(t)}{h}\ihat + \frac{f_2(t+h)-f_2(t)}{h}\jhat-\frac{f_3(t+h)-f_3(t)}{h}\khat} \\
+        &= \<\lim_{h\to 0}\frac{f_1(t+h)-f_1(t)}{h}, \lim_{h\to 0}\frac{f_2(t+h)-f_2(t)}{h}, \lim_{h\to 0}\frac{f_3(t+h)-f_3(t)}{h} \> \\
+        &= \< f_1'(t), f_2'(t), f_3'(t) \>
+    \end{align*}
+\end{proof}
+\begin{example}
+    Find the derivative of \(\vec r(t) = \<1 + t^3, te^{-t}, \sin 2t \>\). Then, find the unit tangent vector to \(\vec r\) when \(t=0\). \par\bf{Solution: }First, \(\vec r'(t)=\<3t^2, e^{-t}-te^{-t}, 2\cos 2t\>\). Then, \(\vec r'(0) = \<0, 1, 2\>\) and \(||\vec r'(0)||=\sqrt{5}\). So, the unit tangent vector is \[\vec T(0)=\frac{\vec r'(0)}{||\vec r'(0)||} = \<0, \frac{1}{\sqrt 5}, \frac{2}{\sqrt 5} \>\]
+\end{example}
+\begin{example}
+    Find parametric equations for the tangent line to the helix with parametric equations 
+    \[ x=2\cos t\quad y=\sin t\quad z=t \]
+    at the point \((0, 1, \pi/2)\).\par\bf{Solution: }The vector equation for the helix is \(\vec r(t)=\<2\cos t, \sin t, t\>\). Then, differentiating that, \[ \vec r'(t) = \<-2\sin t, \cos t, 1\>. \]
+    We then need to find the \(t\)-value that satisfies \(\vec r(t) = \<0, 1, \pi/2\>\), which we can see by observation of the \(z\)-coordinate to be \(t=\pi/2\). Then,
+    \[ \vec r'\pqty{\frac{\pi}2} = \<-2\sin\frac{\pi}2, \cos \frac{\pi}2, 1\> = \<-2, 0, 1\> \]
+    Then, the tangent line is given by
+    \[ \vec L = \<-2, 0, 1\>\pqty{t - \frac{\pi}2}+\<0, 1, \frac{\pi}2\> \]
+    or, in parametric form,
+    \[ x = -2t + \pi, \quad y = 1, \quad z = t\]
+\end{example}
+A curve given by a vector function \(\vec r(t)\) on an interval \(I\) is called \bf{smooth} if \(\vec r'\) is continuous and \(r'(t)\neq 0\) (except possibly at endpoints of \(I\)). 
+\begin{example}
+    Determine whether the semicubical parabola \(\vec r(t)=\<1+t^3, t^2\>\) is smooth for \(t\in \RR\). \par\bf{Solution: } First, find \(\vec r'(t) = \<3t^2, 2t\>\). Because \(\vec r'(t) = \vec 0\) when \(t=0\), \(\vec r\) is not smooth. We can see from the below graph that there is a sharp corner--called a \bf{cusp}--at the point \(\vec r(0)\). Any curve with this behavior is not smooth.
+\end{example}
+A curve with a finite number of smooth segments is called \bf{piecewise smooth}. For example, the function in the previous example is piecewise smooth on the interval \((-\infty, 0)\cup(0, \infty)\).
+\subsubsection{Differentiation Rules}
+\begin{theorem}
+    Suppose \(\vec u\) and \(\vec v\) are differentiable vector functions, \(c\) is a scalar, and \(f\) is a differentiable real-valued function, then,
+    \begin{enumerate}
+        \item \(\dv{t}\bqty{\vec u(t) + \vec v(t)} = \vec u'(t) + \vec v'(t)\)
+        \item \(\dv{t}\bqty{c\vec u(t)} = c\vec u'(t)\)
+        \item \(\dv{t}\bqty{f(t)\vec u(t)} = f'(t)\vec u(t) + f(t)\vec u'(t)\)
+        \item \(\dv{t}\bqty{\vec u(t)\cdot \vec v(t)} = \vec u'(t)\cdot \vec v(t) + \vec u(t) \cdot \vec v'(t)\)
+        \item \(\dv{t}\bqty{\vec u(t)\times \vec v(t)} = \vec u'(t) \times \vec v(t) + \vec u(t)\times \vec v'(t)\)
+        \item \(\dv{t}\bqty{\vec u(f(t))} = \vec u'(f(t))f'(t)\)
+    \end{enumerate}
+    Most of these rules are familiar, except for rules \(4\) and \(5\), which are similar to the product rule.
+\end{theorem}
+\begin{example}
+    Show that if \(||\vec r(t)|| = c\) (a constant), then \(\vec r'(t)\) is orthogonal to \(\vec r(t)\) for all \(t\). \par\bf{Solution: }Consider the relationship \(\vec r\cdot \vec r = c^2\). Differentating both sides, 
+    \[ \vec r(t) \cdot \vec r'(t) + \vec r'(t) \cdot \vec r(t) = 2\vec r(t)\cdot \vec r'(t) = 0\]
+    Therefore, \(\vec r'(t)\cdot \vec r(t)\) is zero for all \(t\) and \(\vec r'\) is always orthogonal to \(\vec r\).
+\end{example}
+\subsubsection{Integrals}
+The \bf{definite integral} of a continuous vector function \(\vec r(t)\) can be defined in much the same way as for real-valued functions except the integral is a vector. That is, for some \(\vec r(t) = \<f(t), g(t), h(t)\>\),
+\[ \int_a^b\vec r(t)\dd t = \<\int_a^bf(t)\dd t, \int_a^b g(t)\dd t, \int_a^b h(t)\dd t\> \]
+Further, we can extend the fundamental theorem of calculus to vector functions by defining \(\vec R(t)\) to be an antiderivative of \(\vec r(t)\). Then,
+\[ \int_a^b\vec r(t)\dd t = \vec R(b) - \vec R(a).\]
+\begin{example}
+    If \(\vec r(t) = \<2\cos t, \sin t, 2t\>\), evaluate \(\int \vec r(t)\dd t\).\par\bf{Solution: }This is as simple as integrating each component,
+    \begin{align*}
+        \int \vec r(t)\dd t &= \<\int 2\cos t \dd t, \int \sin t \dd t, \int 2t\dd t\> \\
+        &= \< 2\sin t, -\cos t, t^2\> + \vec C
+    \end{align*}
+    Where \(\vec C\) is an arbitrary constant vector in \(\RR^3\).
+\end{example}
+\subsubsection{Arc Length and Curvature}
+Recall from Calculus 2 that the arc length of a curve in \(\RR^2\) is given by
+\[ S = \int_a^b\sqrt{\pqty{\dv{y}{t}}^2+\pqty{\dv{x}{t}}^2}\dd t \]
+The length of a space curve is defined similarly,
+\[ S = \int_a^b\sqrt{\pqty{\dv{y}{t}}^2 + \pqty{\dv{x}{t}}^2+\pqty{\dv{z}{t}}^2}\dd t\]
+This can be expressed more compactly as
+\[ S = \int_a^b ||\vec r'(t)||\dd t\]
+\begin{example}
+    Find the arc length of the circular helix with vector equation \(\vec r(t) = \<\cos t, \sin t, t\>\) from the point \((1, 0, 0)\) to the point \((1, 0, 2\pi)\).\par\bf{Solution: }First, we can easily see from the \(z\) coordinate that our \(t\) interval is \(t\in[0, 2\pi]\). Then, compute \(\vec r'(t) = \<-\sin t, \cos t, 1\>\) and 
+    \begin{align*}
+        ||\vec r'(t)|| = \sqrt{\sin^2t + \cos^2t + 1} = \sqrt 2
+    \end{align*}
+    Then, compute the arc length,
+    \[ L = \int_0^{2\pi}\sqrt 2 \dd t = 2\sqrt 2 \pi\]
+\end{example}
+A single curve \(C\) can be represented by more than one vector function. For example, the curve \(\vec r_1(t) = \<t, t^2, t^3\>, t\in [1, 2]\) is identical to the curve \(\vec r_2(t) = \<e^u, e^{2u}, e^{3u}\>, u\in[0, \ln 2]\). These can be transformed back and forth with the relationship \(t = e^u\). These two different (yet identical) curves are different \bf{paramaterizations} of \(C\). The arc length computed is identical regardless of what paramaterization you use. \par Now, suppose that \(C\) is a piecewise-smooth curve on \(I=[a, b]\) given by a differentiable vector function \(\vec r(t)\), and \(C\) is traversed exactly once on \(I\). Then, we can define the \bf{arc length function} \(s\) with
+\[ s(t) = \int_a^t ||\vec r'(t)||\dd t, \quad t\in (a, b]\]
+If we differentiate both sides, we arrive at a useful result: \[\dv{s}{t}=||\vec r'(t)||\]It is often useful to paramaterize a curve with respect to arc length because arc length arises naturally from the shape of the curve and is independent of the coordinate system. If we are given a paramaterization \(\vec r(t)\) and \(s(t)\) is the arc length function, we may be able to solve for \(t\) as a function of \(s\), so \(\vec r = \vec r(t(s))\) can be used to find the position of the particle after it its path has reached a particular length.
+\begin{example}
+    Reparamaterize the helix \(\vec r(t) = \<\cos t, \sin t, t\>\) with respect to arc length measured from \((1, 0, 0)\) in the direction of increasing \(t\).\par\bf{Solution: }First, say \(\vec r'(t) = \< -\sin t, \cos t, 1\>\) and \(||\vec r'(t)|| = \sqrt 2\). Then, note that \(\vec r(t) = \<1, 0, 0\>\) when \(t=0\) (so the starting \(t\)-value is \(0\)), and \[ s(t) = \int_0^t\sqrt 2\dd t = \sqrt 2t\]
+    From there, we can get \(t\) as a function of \(s\):
+    \[ t(s) = \frac{1}{\sqrt 2}s\]
+    and plug that back into the original paramaterization of the helix:
+    \[ \vec r_2(s) = \< \cos \frac{s}{\sqrt 2}, \sin \frac{s}{\sqrt 2}, \frac{2}{\sqrt 2} \> \]
+\end{example}
+\subsubsection{Curvature}
+If \(C\) is a smooth curve defined by the vector function \(\vec r\), then \(\vec r'(t)\neq \vec 0\). Recall that the unit tangent vector given by 
+\[ \vec T(t) = \frac{\vec r'(t)}{||\vec r'(t)||} \]
+indicates the drection of the curve. When a curve is fairly straight, \(\vec T\) changes direction very slowly. When a curve has sharp twists or bends, however, \(\vec T\) changes direction quickly. \par
+To put a number to this idea of changing direction ``quickly'' or ``slowly'', we will define a new quantity--curvature.
+\begin{definition}
+    The \bf{curvature} of a curve is 
+    \[ \kappa = \norm{\dv{\vec T}{s}} \]
+    where \(\vec T\) is the unit tangent vector.
+\end{definition}
+We use the derivative of \(\vec T\) with respect to the arc length instead of \(t\) so that curvature will be independent of the paramaterization used. We can also express the curvature in another way with the chain rule. Because \(\dv{\vec T}{t}=\dv{\vec T}{s}\dv{s}{t}\), we can rewrite \(\kappa\) as
+\[ \kappa = \norm{\frac{\dd \vec T/\dd t}{\dd s/\dd t}}\]
+\begin{example}
+    Find the curvature of a circle of radius \(a\).\par\bf{Solution: }First, we can paramaterize the circle as \(\vec r(t) = \<a\cos t, a\sin t\>\), where \(t\in[0, 2\pi]\). Then, we can compute \(\vec r'(t)=\<-a\sin t, a\cos t\>\) and \(\norm{\vec r'(t)} = \sqrt{a^2\sin^2t+a^2\cos^2t}=a\). The tangent unit vector is 
+    \[ \vec T(t) = \frac{\vec r'(t)}{\norm{\vec r'(t)}}=\frac{1}a\<-a\sin t, a\cos t\> = \<-\sin t, \cos t\>. \]
+    Then, the arc length is 
+    \[ s(t) = \int_0^t\norm{\vec r'(\tau)}\dd \tau = \int_0^t a\dd \tau = at\] 
+    and the curvature is 
+    \[ \kappa = \norm{\frac{\dd \vec T/\dd t}{\dd s/\dd t}} = \norm{\frac{\<-\cos t, -\sin t\>}{a}} = \frac{1}a\]
+\end{example}
+Another way to compute the curvature that is often more convenient to apply is given by
+\[ \kappa = \frac{\norm{\vec r'(t) \times \vec r''(t)}}{\norm{\vec r'(t)}^3}\]
+\begin{proof}
+    Since \(\vec T = \vec r'/\norm{\vec r'}\) and \(\norm{\vec r'} = \dd s/\dd t\), we have
+    \[ \vec T = \frac{\dd \vec r/ \dd t}{\dd s/ \dd t} \implies \dv{\vec r}{t} = \vec T \dv{s}{t}\]
+    Differentiating both sides with \(t\),
+    \[ \dv[2]{\vec r}{t} = \vec T\dv[2]{s}{t} + \dv{\vec T}{t}\dv{s}{t} \]
+    Combining these two equations, we can see
+    \begin{align*}
+        \dv{\vec r}{t}\times \dv[2]{\vec r}{t} &= \bqty{\vec T\dv{s}{t}}\times \bqty{\vec T\dv[2]{s}{t}+\dv{\vec T}{t}\dv{s}{t}} \\
+        &= \cancelto{0}{\bqty{\dv{s}{t}\vec T\times \dv[2]{s}{t}\vec T}} + \bqty{\dv{s}{t}}^2\bqty{\vec T \times \dv{\vec T}{t}} \\
+        &= \bqty{\dv{s}{t}}^2\bqty{\vec T\times \dv{\vec T}{t}}
+    \end{align*}
+    Because \(\norm{\vec T(t)}=1\) and \(\vec T\) is orthogonal with \(\vec T'\), we can say
+    \begin{align*}
+        \norm{\dv{\vec r}{t}\times \dv[2]{\vec r}{t}} &= \bqty{\dv{s}{t}}^2\norm{\vec T \times \vec T'} \\
+        &= \bqty{\dv{s}{t}}^2\norm{\vec T'}\cancelto{1}{\norm{\vec T}} \\
+        &= \bqty{\dv{s}{t}}^2\norm{\vec T'}   \\      \norm{\dv{\vec T}{t}} &= \frac{\norm{\vec r(t) \times \vec r''(t)}}{[s'(t)]^2}
+    \end{align*}
+    Then, because \(\kappa = \norm{\vec T'(t)/s'(t)}\), we can rewrite as
+    \begin{align*}
+        \norm{\frac{\vec T'(t)}{s'(t)}} &= \frac{\norm{\vec r'(t)\times \vec r''(t)}}{\abs{s'(t)}^3} = \frac{\norm{\vec r'(t)\times \vec r''(t)}}{\norm{\vec r'(t)}^3}
+    \end{align*}
+\end{proof}
+\begin{example}
+    Find the curvature of the twisted cubic \(\vec r(t) = \<t, t^2, t^3\>\) at a general point and at \((0,0,0)\).\par\bf{Solution: }Fist, compute \(\vec r'\) and \(\vec r''\).
+    \begin{align*}
+        \vec r'(t) &= \<1, 2t, 3t^2\> \\
+        \vec r''(t) &= \<0, 2, 6t\>
+    \end{align*}
+    Then, compute \(\vec r'(t)\times \vec r''(t)\),
+    \[\vec r'(t)\times \vec r''(t) = \begin{vmatrix}
+        \ihat & \jhat & \khat \\
+        1 & 2t & 3t^2 \\
+        0 & 2 & 6t
+    \end{vmatrix} = \<6t^2, -6t, 2\> \]
+    Then, compute \(\norm{\vec r'(t)\times \vec r''(t)}\) and \(\norm{\vec r'(t)}\).
+    \begin{align*}
+        \norm{\vec r'(t)} &= \sqrt{1+(2t)^2+(3t^2)^2} \\
+        &= \sqrt{9t^4+4t^2+1} \\
+        \norm{\vec r'(t)\times \vec r''(t)} &= \sqrt{(6t^2)^2+(-6t)^2+2^2} \\
+        &= \sqrt{36t^4+36t+4}
+    \end{align*}
+    Finally, compute \(\kappa\)
+    \begin{align*}
+        \kappa &= \frac{\norm{\vec r'(t)\times \vec r''(t)}}{\norm{r'(t)}^3} \\
+        &= \frac{(36t^2+36t+4)^{1/2}}{(9t^4+4t^2+1)^{3/2}}
+    \end{align*}
+    At \((0,0,0)\), the curvature is 
+    \[ \kappa(0) = \frac{\sqrt 4}{1^{3/2}} = 2\]
+\end{example}
+For the special case of a curve in \(\RR^2\) with \(y=f(x)\), we can choose \(x\) as the parameter and write \(\vec r(x) = \< x, f(x) \>\). Then, \(\vec r'(x) = \< 1, f'(x) \>\) and \(\vec r''(x) = \< 0, f''(x) \>\). Then, the curvature is given by
+\[ \kappa = \frac{||\<1, f'(x), 0\> \times \< 0, f''(x), 0\> ||}{||\< 1, f'(x)\>||^3} = \frac{|f''(x)|}{\bqty{1+(f'(x))^2}^{3/2}}\]
+\begin{example}
+    Find the curvature of the parabola \(y=ax^2\) at the point \(x=x_0\).\par\bf{Solution: } First, compute the required components,
+    \begin{align*}
+        f'(x) &= 2ax \\
+        f''(x) &= 2a
+    \end{align*}
+    Then, compute the curvature,
+    \[ \kappa = \frac{2|a|}{(1+4a^2x^2)^{3/2}}\]
+    And plug in the point \(x = x_0\),
+    \[ \kappa = \frac{2|a|}{(1+4a^2x_0^2)^{3/2}}\]
+\end{example}
+\subsubsection{Normal and Binormal Vectors}
+At a given point on a smooth space curve \(\vec r(t)\), there are many vectors that are orthogonal to the unit tangent vector \(\vec T(t)\). We single out one by observing that \(|\vec T(t)|=1\) for all \(t\), so \(\vec T(t)\cdot \vec T'(t)=0\) for all \(t\). Therefore, \(\vec T'\) is orthogonal to \(\vec T\). We can define the \bf{principal normal unit vector} \(\vec N(t)\) (or simply unit normal) as 
+\[ \vec N(t) = \frac{\vec T'(t)}{\norm{\vec T'(t)}}\]
+The vector \(\vec B(t) = \vec T(t) \times \vec N(t)\) is also normal to both \(\vec T\) and \(\vec N\), and is called the \bf{binormal vector}. Because \(\norm{\vec T} = \norm{\vec N} = 1\) and they are orthogonal to each other, \(\bf{B}\) is also a unit vector.
+\begin{example}
+    Find the unit normal and binormal vectors for the circular helix \[ \vec r(t) = \< \cos t, \sin t, t\> \]\par\bf{Solution: }First, compute the required components,
+    \begin{align*}
+        \vec r'(t) &= \< -\sin t, \cos t, 1 \> \\
+        \vec T(t) = \frac{\vec r'(t)}{\norm{\vec r'(t)}} &= \< -\frac{\sin t}{\sqrt 2}, \frac{\cos t}{\sqrt 2}, \frac{1}{\sqrt 2} \> \\
+        \vec T'(t) &= \< -\frac{\cos t}{\sqrt 2}, -\frac{\sin t}{\sqrt 2}, 0\> \\
+        \vec N(t) = \frac{\vec T'(t)}{\norm{\vec T'(t)}} &= \boxed{\<-\cos t, -\sin t, 0\>}\quad\text{(Normal Vector)} \\
+        \vec B(t) = \vec T \times \vec N &= \begin{vmatrix}
+            \ihat & \jhat & \khat \\
+            -\sin t/\sqrt 2 & \cos t/\sqrt 2 & 1/\sqrt 2 \\
+            -\cos t & -\sin t & 0 \\
+        \end{vmatrix}  \\
+        &= \frac{1}{\sqrt 2}\< \sin t, -\cos t, \sin^2t + \cos^2t\> = \boxed{\frac{1}{\sqrt 2}\<\sin t, -\cos t, 1\>}\quad\text{(Binormal Vector)}
+    \end{align*}
+\end{example}
+The plane determined by \(\vec N\) and \(\vec B\) and a point \(P\) on a curve \(C\) is called the \bf{normal plane} to \(C\) and \(P\). Every line that lies on this plane is orthogonal to \(\vec T\) at \(P\). \par The plane determined by \(\vec T\) and \(\vec N\) is called the \bf{osculating plane} of \(C\) and \(P\). This is the plane that comes closest to containing the part of the curve near \(P\). \par The circle that lies in the osculating plane of \(C\) and \(P\), has the same tangent as \(C\) at \(P\), lies on the concave side of \(C\) (i.e. in the direction that \(\vec N\) points) and has radius \(\rho = \kappa^{-1}\) is called the \bf{osculating circle} (or \bf{circle of curvature}) of \(C\) at \(P\). It is the circle that best describes how \(C\) behaves near \(P\); it shares the same tangent, normal, and curvature at \(P\).
+\begin{example}
+    Find the equations of the normal plane and osculating plane of the helix \(\vec r(t) = \<\cos t, \sin t, t\>\) at the point \(P(0, 1, \pi/2)\).\par\bf{Solution: }From the previous example, we know that
+    \begin{align*}
+        \vec T(t) &= \frac{1}{\sqrt 2}\<-\sin t, \cos t, 1\> \\
+        \vec N(t) &= \<-\cos t, -\sin t, 0\> \\
+        \vec B(t) &= \frac{1}{\sqrt 2}\<\sin t, -\cos t, 1\>
+    \end{align*}
+    The point \(P\) is found when \(t = \pi /2\), so
+    \begin{align*}
+        \vec T\pqty{\frac{\pi}2} &= \frac{1}{\sqrt 2}\<-1, 0, 1\> \\
+        \vec N\pqty{\frac{\pi}2} &= \<0, -1, 1\> \\
+        \vec B\pqty{\frac{\pi}2} &= \frac{1}{\sqrt 2}\<1, 0, 1\>
+    \end{align*}
+    Recall the equation of a plane, \(\vec n \cdot (\vec r - \vec r_0) = 0\). So the equation for the normal plane of \(\vec r\) at \(P\) is
+    \begin{align*}
+        0 &= \vec T(\pi/2)
+        \cdot (\vec x - \vec p)
+    \end{align*}
+    So
+    \begin{align*}
+        0 &= \<-1, 0, 1\>\cdot\<x, y-1, z-\pi/2\> \\
+        &= -x+z-\pi/2
+    \end{align*}
+    Therefore the normal plane is formed by the equation
+    \[ z = x+\pi/2\]
+    The osculating plane has normal vector \(\vec B(\pi/2)\), so its equation is
+    \begin{align*}
+        0 &= \frac{1}{\sqrt{2}}\<1, 0, 1\> \cdot \<x, y-1, z-\pi/2\> \\
+        &= \frac{1}{\sqrt 2}x + \frac{1}{\sqrt 2}\pqty{z-\frac{\pi}2}
+    \end{align*}
+    Or,
+    \[ z = \frac{\pi}2 - x\]
+\end{example}
+\begin{example}
+    Find and graph the osculating circle of the parabola \(y=x^2\) at the origin.\par\bf{Solution: }We already know that the curvature of the parabola \(y=ax^2\) is given by \[ \frac{2|a|}{(1+4a^2x^2)^{3/2}} \]
+    Plugging in \(a=1\) and \(x=0\), we get \(\kappa = 2\). Therefore, the radius of the circle is \(1/\kappa = 1/2\). The circle must be tangent to \(y=x^2\) in the direction of \(\vec N\), so its center must be at \((0, 1/2)\). Therefore, the equation for the circle is
+    \[ x^2+\pqty{y-\frac{1}2}^2=\frac{1}{4}\]
+\end{example}
+\subsubsection{Motion in Space}
+Suppose a particle moves through space so that its position vector at time \(t\) is \(\vec r(t)\), where \(\vec r\) is twice-differentiable on the domain of \(\vec r\). Then, its velocity vector is \(\vec r'(t)\) and its acceleration vector is \(\vec r''(t)\). \par Additionally, the \it{speed} of the particle is \(\norm{\vec r'(t)}=\dvi{s}{t}\), where \(s\) is the arclength (or, in the context of motion, distance) function.
+\begin{example}
+    The position vector of an object moving in a plane is given by \(\vec r(t) = \< t^3, t^2\>\). Find functions describing its velocity, speed, and acceleration.\par\bf{Solution: } This is as simple as plugging in:
+    \begin{align*}
+        \text{Velocity: } \vec r'(t) &= \< 3t^2, 2t \> \\
+        \text{Speed: } \norm{\vec r'(t)} &= \sqrt{9t^4 + 4t^2} = t\sqrt{9t^2+4} \\
+        \text{Acceleration: } \vec r''(t) &= \< 6t, 2\>
+    \end{align*}
+\end{example}
+\begin{example}
+    A moving particle starts at initial position \(\vec r(0) = \< s_x, s_y, s_z \>\) with initial velocity \(\vec v(0) = \< v_x, v_y, v_z \>\). Its acceleration as a function of time is given by \(\vec a(t)=\<4t, 6t, 1\>\). Find its position as a function of time.\par
+    \bf{Solution:} First, we can find \(\vec v(t)\),
+    \begin{align*}
+        \vec v(t) &=  \int \vec a(t) \dd t = \<2t^2, 3t^2, t\> + \vec C \\
+        \vec v(0) = \<v_x, v_y, v_z\>\implies \vec C &= \<v_x, v_y, v_z\> \\
+        \vec v(t) &= \< 2t^2+v_x, 3t^2+v_y, t+v_z\>
+    \end{align*}
+    And then we can find \(\vec r(t)\),
+    \begin{align*}
+        \vec x(t) &= \int \vec v(t) \dd t = \< \frac{2}{3}t^3 + v_xt, t^3+v_yt, \frac{1}{2}t^2+v_zt\> + \vec D \\
+        \vec x(0) = \<s_x, s_y, s_z\>\implies \vec D &= \<s_x, s_y, s_z\> \\
+        \vec x(t) &= \<\frac{2}{3}t^3+v_xt+s_x, t^3+v_yt+s_y, \frac{1}{2}t^2+v_zt+s_z\>
+    \end{align*}
+    These types of problems are basically three initial value problems (similar to the ones in Calculus 2) mushed into one. Treat the \(x\), \(y\), and \(z\) components separately, and you get three single-variable calculus problems.
+\end{example}
+If the force that acts on a particle and the particle's mass is known, then acceleration can be found with Newton's Second Law,
+\[ \vec F = m \vec x'' \]
+\begin{example}
+    An object with mass \(m\) that moves in a circular path with constant angular speed \(\omega\) has position vector \(\vec r(t) = \<a\cos \omega t, a\sin \omega t\>\). Find the force acting on the object and show that is directed towards the origin. \par\bf{Solution: }First, find \(\vec a(t)\),
+    \[ \vec a(t) = \vec r''(t) = \dv{t}\<-a\omega \sin \omega t, a\omega\cos \omega t\> = \< -a\omega^2\cos \omega t, -a\omega^2\sin \omega t \> \]
+    The force is simply \(\vec F = m \vec a\),
+    \[ \vec F = \< -am\omega^2\cos \omega t, -am\omega^2\sin\omega t\>.\]
+    Note that \(\vec F = -m\omega^2\vec r\), the force acts in the opposite direction of the position vector, which will be pointed towards the origin.
+\end{example}
+\begin{example}
+    A projectile is fired with an angle of elevation \(\theta\) and initial velocity \(\vec v_0\). Assuming that air resistance is negligible, find the position function \(\vec r(t)\) of the projectile. What value of \(\theta\) maximizes the range (the horizontal distance traveled)?\par\bf{Solution: } First, we can find the components of the initial velocity, \[ \vec v_0 = \<\norm{\vec v_0}\cos \theta, \norm{\vec v_0}\sin \theta \> \] Then, use NSL to find the acceleration on the object,
+    \[ \vec F = m\vec a = \<0, -mg\> \implies \vec a = \<0, -g\> \]
+    Then the velocity function,
+    \[ \vec v(t) = \vec v_0 + \int_0^t\vec a(\tau)\dd \tau = \< \norm{\vec v_0}\cos \theta, \norm{\vec v_0}\sin \theta-gt\> \]
+    and finally the position function (assuming that \(\vec r(0) = \vec 0\)),
+    \[ \vec r(t) = \int_0^t\vec v(\tau)\dd \tau = \<\norm{\vec v_0}t\cos\theta, \norm{\vec v_0}t\sin\theta-\frac{1}{2}gt^2 \>\]
+    The object will hit the ground when \(\vec r(t)\cdot \vec \jmath = 0\), so
+    \begin{align*}
+        0 &= \norm{\vec v_0}t\sin\theta - \frac{1}{2}gt^2 \\
+        &= t\pqty{\norm{\vec v_0}\sin \theta - \frac{1}{2}gt}
+    \end{align*}
+    This will have two solutions: \(t = 0\) and \(t=2g^{-1}\norm{\vec v_0}\sin\theta\). The second solution is the one we're looking for. Then, we can plug that back into the \(x\)-component of \(\vec r\) to find the range,
+    \begin{align*}
+        x_f &= \norm{\vec v_0}\bqty{2g^{-1}\norm{\vec v_0}\sin\theta}\cos \theta \\
+        &= \frac{2\norm{\vec v_0}^2\sin\theta\cos\theta}{g} \\
+        &= \frac{\norm{\vec v_0}^2\sin(2\theta)}{g}
+    \end{align*}
+    This will reach its max on the interval \([0, \pi/2]\) when \(2\theta = \pi/2\) or \(\theta=\pi/4\).
+\end{example}
+\subsubsection{Tangential and Normal Components of Acceleration}
+When we study the acceleration of a particle, it is often useful to resolve the acceleration into two components, one in the direction of the tangent and one in the direction of the normal. If we write \(v = \norm{\vec v}\) for the speed of the particle, then 
+\[ \vec T(t) = \frac{\vec v}{\norm{\vec v}} = \frac{\vec v}{v}\]
+So \( \vec v = v\vec T\). Differentiating both sides of the equation with respect to \(t\), we get
+\[ \vec a = v'\vec T + v\vec T'\]
+We know that \(\vec T\) is the tangent vector and \(\vec T'/\norm{\vec T'}\) is the normal vector, so we can resolve the acceleration into
+\[ \vec a = \bqty{v'}\vec T + \bqty{v\norm{\vec T'}}\vec N\]
+where the first term is the tangential component and the second term is the normal component. Additionally, since we know that \(\kappa = \norm{\vec T'}/\norm{\vec r'} = \norm{\vec T'}/v\), we can rewrite as 
+\[ \vec a = \bqty{v'}\vec T + \bqty{\kappa v^2} \vec N \]
+This formula tells us a couple of things about the behavior of acceleration functions
+\begin{enumerate}
+    \item Due to the absence of a \(\vec B\) term, we can conclude that \(\vec a\) always lies in the osculating plane. 
+    \item When the speed is constant, there is no tangential component of acceleration, such as in the case of uniform circular motion.
+    \item There will only be no normal component to acceleration if the speed is zero or the curvature is zero (i.e. the object is traveling in a straight line).
+\end{enumerate}
+We can do some more rewriting to find requations that only depend on \(\vec r\), \(\vec r'\), and \(\vec r''\). First, consider the product 
+\begin{align*}
+    \vec v \cdot \vec v' &= v\vec T \cdot \bqty{v'\vec T + \kappa v^2\vec N} \\
+    &= v\vec T \cdot v'\vec T + v\vec T \cdot \kappa v^2\vec N
+\end{align*}
+Because \(\vec T \cdot \vec T = 1\) and \(\vec T \cdot \vec N = 0\) (because \(\vec T\) is orthogonal to \(\vec N\)),
+\begin{align*}
+    \vec v \cdot \vec v' &= vv' \implies v' = \frac{\vec v\cdot \vec v'}{v}
+\end{align*}
+Plugging this back into the expresion for the tangential component,
+\[ v' = \frac{\vec v\cdot \vec v'}{v} = \frac{\vec r' \cdot \vec r''}{\norm{\vec r'}}\]
+and the normal component,
+\[ \kappa v^2 = \underbrace{\frac{\norm{\vec r' \times \vec r''}}{\norm{\vec r'}^3}}_{\kappa}\underbrace{\norm{\vec r'}^2}_{v^2} = \frac{\norm{\vec r'\times \vec r''}}{\norm{\vec r'}}\]
+So we can write \(\vec r''\) as the linear combination of these,
+\[ \vec r'' = \bqty{\frac{\vec r'\cdot \vec r''}{\norm{\vec r'}}}\vec T + \bqty{\frac{\norm{\vec r'\times \vec r''}}{\norm{\vec r'}}}\vec N\]
+You may recognize the first term as the projection of \(\vec r''\) onto \(\vec r'\), which matches with our intuition of what the tangential component is. 
+\begin{example}
+    A particle moves with position function \(\vec r(t) = \< t^2, t^2, t^3\>\). Find the tangential and normal components of acceleration.\par\bf{Solution: }
+    First, find the required components,
+    \begin{align*}
+        \vec r'(t) &= \<2t, 2t, 3t^2\> \\
+        \norm{\vec r'(t)} &= \sqrt{8t^2+9t^4} \\
+        \vec r''(t) &= \< 2, 2, 6t\> \\
+        \vec r' \cdot \vec r'' &= 8t+18t^3 \\
+        \norm{\vec r'\times \vec r''} &= \norm{\begin{vmatrix}
+            \ihat & \jhat & \khat \\
+            2t & 2t & 3t^2 \\
+            2 & 2 & 6t
+        \end{vmatrix}} = \sqrt{(6t^2)^2 + (6t^2)^2 + (0)^2} \\
+        &= \sqrt{72t^4} = [6\sqrt 2]t^2
+    \end{align*}
+    Then, compute the components,
+    \begin{align*}
+        \vec r'' &= \bqty{\frac{\vec r'\cdot \vec r''}{\norm{\vec r'}}}\vec T + \bqty{\frac{\norm{\vec r'\times\vec r''}}{\norm{\vec r'}}}\vec N \\
+        &= \frac{8t+18t^3}{t\sqrt{8+9t^2}}\vec T + \frac{6\sqrt 2t^2}{t\sqrt{8+9t^2}}\vec N \\
+        &= \frac{8+18t^2}{\sqrt{9t^2+8}}\vec T + \frac{6\sqrt 2 t}{\sqrt{9t^2+8}}\vec N
+    \end{align*}
+\end{example}

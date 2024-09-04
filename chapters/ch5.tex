@@ -1,0 +1,1298 @@
+\section{Vector Calculus}
+\subsection{Vector Fields}
+A vector field on a vector space $V$ is a function $\vec F: V\to V$. In other words, it is a function that takes in a vector and spits out a vector. \par
+We can picture a vector field on $\RR^2$ as a set that takes in all of the points in two dimensional space and assigns an arrow with a particular magnitude and direction to each one. Similar visual intuitions works for vector fields on $\RR^3$. \par
+If $\vec F(\vec x) = \sum_{i=1}^n f_i(\vec x)\vec b_i$, where the set $\{\vec b_1, \vec b_2, \dots \vec b_n \}$ forms a basis for $V$, then each $f_i$ is called a \textbf{component function} of $\vec F$. In the two dimensional case, we have
+\[ \vec F(x,y) = \< P(x,y), Q(x,y) \> \]
+and in the three dimensional case, we have
+\[ \vec F(x,y,z) = \< P(x,y,z), Q(x,y,z), R(x,y,z) \> \]
+Functions like $P$, $Q$, and $R$ which take in a vector input and have a scalar output are sometimes known as \textit{scalar fields}. Notationally, these are denoted like $P: V\to \mathbb{F}$, where $V$ is a vector space and $\mathbb{F}$ is a field (such as $\RR$ or $\CC$). 
+\begin{definition}
+    If $\vec F: V\to V$ is a vector field on a vector space $V$ with basis $\{\vec b_1, \dots, \vec b_n\}$, and
+    \[ \vec F(\vec x) = \sum_{i=1}^{n}f_i(\vec x)\vec b_i \]
+    then $\vec F$ is continuous on a region $R$ if and only if each $f_i$ is continuous on $R$.
+\end{definition}
+One application of vector fields is the concept of a \textbf{velocity field}. Imagine a pipe with water flowing through it. At each point in the pipe, the water is flowing in a particular direction with a particular speed. Then, a function $\vec V: \RR^3\to \RR^3$ assigns a velocity vector to the water at each point in the pipe. These types of fields have many applications in physics. \par
+Another example is a \textbf{force field}, which describes a force being applied to an object at any particular point. \par
+The famous equation \textit{Newton's Law of Gravitation} describes the force between two masses $m$ and $M$ separated by a displacement vector $\vec r$:
+\[ \norm{\vec F} = G\frac{mM}{\norm{\vec r}^2}\]
+this force will attract the two masses together, so its direction is given by $\vec F / \norm{\vec F} = -\vec r/\norm{\vec r}$, and we find
+\[ \vec F = G\frac{mM\vec r}{\norm{\vec r}^3}\]
+With this, we can also define the notion of a \textbf{gravitaional field}, which describes the force of gravity applied to a point mass with $m=1$. This gravitational field is usually denoted by $\vec g$. If we set $m=1$ in the above equation, we find
+\[ \vec g = -\frac{GM\vec r}{\norm{\vec r}^3} \]
+This gives us a convenient expression for the gravitational force on an object: $\vec F_g = m\vec g$. The strength of this gravitational field on the surface of the earth is the constant $g=9.81$ meters per second squared, which gives us the famous result $\norm{\vec F_g} = mg$. \par
+Similarly, we can define the electric field from a particle with charge $Q$ as
+\[ \vec E = \frac{1}{4\pi \epsilon_0}\frac{Q\vec r}{\norm{\vec r}^3}\]
+where $\epsilon_0$ is a constant. 
+\subsection{Gradient Fields}
+For a differentiable function $f: \RR^n\to \RR$, recall that the gradient of $f$ is given by
+\[ \bnabla f = \< \pdv{f}{x_1}, \pdv{f}{x_2}, \dots, \pdv{f}{x_n} \> \]
+Notice that $\bnabla f$ is a function from $\RR^n$ to $\RR^n$, and is in fact a vector field. This is known as a \textbf{gradient vector field}. \par
+A vector field $\vec F$ is called a \textbf{conservative vector field} if there exists some function $f$ such that $\bnabla f = \vec F$. For instance, the gravitational field is conservative because if we define
+\[ f(\vec x) = \frac{MG}{\norm{\vec x}}\]
+we obtain
+\begin{align*}
+    \bnabla f(\vec x) &= \< \frac{-MGx_1}{\norm{\vec{x}}^{3}}, \frac{-MGx_2}{\norm{\vec x}^{3}}, \dots, \frac{-MGx_n}{\norm{\vec x}^{3}}\> \\
+    &= -G\frac{M}{\norm{\vec x}^{3}}\<x_1, x_2, \dots, x_n\> \\
+    &= -G\frac{M\vec x}{\norm{\vec x}^{3}}
+\end{align*}
+which is equivalent to our previous definition of $\vec g$. However, this process of verifying a field is conservative is arduous and difficult. We will find a new way soon.
+\subsection{Line Integrals}
+In this section, we will define a new form of integral that is similar to single variable integrals, except instead of integrating over a region $[a,b]$, we are integrating across a line. \par
+Suppose $C$ is a curve defined by the equation $\vec r(t) = \<x_1(t), x_2(t), \dots, x_n(t)\>$ for $t\in[a,b]$. Assume that $C$ is smooth (recall that this means that $\vec r'$ is continuous and $\vec r'\neq \vec 0$). If we divide the interval $[a,b]$ into $n$ sub-intervals $[t_i, t_{i+1}]$ and let $\vec r_i = \<x_1(t_i), x_2(t_i), \dots, x_n(t_i)\>$. This divides $C$ into $n$ sub-arcs, with each one having length $\Delta s_i$. If we choose any point in time $t_i^*$ on the interval $[t_i, t_{i+1}]$, we find $\vec r_i^* = \<x_1(t_i^*), x_2(t_i^*), \dots, x_n(t_i^*\>$. \par
+Now, suppose we are integrating a function $f: \RR^n\to \RR$ whose domain includes all points on $C$. Then, our riemann sum becomes
+\[ \sum_{i=1}^n f(\vec r_i^*)\Delta s_i\]
+Taking the limit of this expression, we get
+\[ \lim_{n\to\infty} \sum_{i=1}^n f(\vec r_i^*)\Delta s_i = \int_C f(\vec r)\dd s\]
+Recall that the arc length of a curve parameterized by time is 
+\[ S = \int_a^b \norm{\vec r'(t)}\dd t\]
+So the length of each of our mini arcs is 
+\[ \dd S = \norm{\vec r'(t)}\dd t \]
+and we obtain
+\[ \int_C f(\vec r)\dd s = \int_a^b f(\vec r(t))\norm{\vec r'(t)}\dd t\]
+\begin{example}
+    Evaluate $\int_C (2+x^2y)\dd s$, where $C$ is the top half of the unit circle. \par
+    \bf{Solution: }The top half of the unit circle is paramaterized by $(\cos t, \sin t)$ with $t\in[0, \pi]$. So, we find
+    \begin{align*}
+        \int_C (2+x^2y)\dd s &= \int_0^\pi 2+(\cos t)^2(\sin t)\sqrt{\sin^2t+\cos^2t}\;\dd t \\
+        &= \int_0^\pi 2 + \sin t\cos^2t\dd t \\
+        &= 2t - \frac{1}{3}(\cos t)^3 \biggr|_0^\pi \\
+        &= 2\pi +\frac{1}{3} + \frac{1}{3} = \boxed{2\pi + \frac{2}{3}}
+    \end{align*}
+\end{example}
+If $C$ is the union of finitely many disjoint curves $C_1, \dots, C_n$ with each $C_i$'s terminal point equal to each $C_{i+1}$'s initial point and each $C_i$ being smooth, then we have
+\[ \int_C f(\vec r)\dd s = \sum_{i=1}^n \int_{C_i}f(\vec r)\dd s \]
+The physical interpretation of line integrals depends on the function $f$ that is being integrated. For instance, if $f$ is a density function for a solid, then $\int_Cf(\vec r)\dd s$ is the mass of a solid occupying $C$.
+\begin{example}
+    A wire takes the shape of the semicircle $x^2+y^2=1$ with $y\geq 0$, and is thicker near its base than its top. Find the mass and center of mass of the wire if its mass density is proportional to its distance from the line $y=1$. \par
+    \bf{Solution:} The mass density function is
+    \[ \rho(x,y) = k\abs{y-1} = k(1-y) \]
+    We can paramaterize the curve with $x=\cos t, y=\sin t$ with $t\in[0, \pi]$. Then, 
+    \[ m = \int_0^\pi k(1-\sin t)\sqrt{\sin^2t + \cos^2t}\; \dd t = k(\pi - 2) \]
+    By symmetry, the center of mass in the $x$ direction is $\overline x=0$. The center of mass in the $y$ direction is given by
+    \begin{align*}
+        \overline y &= \frac{1}{m} \int_C y\rho(x,y)\dd s \\
+        &= \frac{1}{k(\pi -2)}\int_0^\pi k\sin t-k\sin^2t\;\dd t \\
+        &= \frac{1}{\pi-2}\bqty{-\cos t - \frac{1}{2}t + \frac{1}{4}\sin(2t)}_0^\pi \\
+        &= \frac{4-\pi}{2\pi-4}
+    \end{align*}
+\end{example}
+So the center of mass is at the position
+\[ (\overline x, \overline y) = \pqty{0, \frac{4-\pi}{2\pi -4}}\]
+We can obtain two other line integrals by replacing the $\Delta s$ with either a $\Delta x$ or $\Delta y$, giving us
+\[ \int_C f(x,y)\dd x = \int_a^b f(x(t), y(t))x'(t)\dd t\]
+\[ \int_C f(x,y)\dd y = \int_a^b f(x(t),y(t))y'(t)\dd t \]
+These are known as the line integrals with respect to $x$ and $y$, whereas our previous one is known as the line integral with respect to arclength. \par
+Frequently, we see the line integrals with respect to $x$ and $y$ occurring together. In that case, we write
+\[ \int_C P(x,y)\dd x + \int_C Q(x,y)\dd y = \int_C P(x,y)\dd x + Q(x,y)\dd y\]
+Also note that we will frequently have to parameterize a line segment when doing line integrals. For this, it will be useful to remember the formula for a line segment going from $\vec r_0$ to $\vec r_1$:
+\[ \vec r(t) = (1-t)\vec r_0 + t\vec r_1 \quad t\in[0,1]\]
+\begin{example}
+    Evaluate $\int_C y^2\dd x + x\dd y$ where:
+    \begin{enumerate}
+        \item $C = C_1$ is the line segment from $(-5, -3)$ to $(0, 2)$.
+        \item $C = C_2$ is the arc of the parabola $x=4-y^2$ from $(-5, -3)$ to $(0, 2)$.
+    \end{enumerate}
+    \par\bf{Solution (1):}
+        We can parameterize $C_1$ with the function
+        \[ \vec r_1(t) = (1-t)\langle -5, -3\rangle + t\langle 0, 2\rangle = \langle 5t-5, 5t-3 \rangle, \quad t\in[0,1] \]
+        Then, we obtain $\vec r_1'(t) = \langle 5, 5 \rangle$ and therefore,
+        \begin{align*}
+            \int_{C_1} y^2\dd x + x\dd y &= \int_0^1 5\pqty{y(t)}^2 + 5x(t)\dd t \\
+            &= \int_0^1 5(5t-3)^2 + 5(5t-5)\dd t \\
+            &= \int_0^1 125t^2 - 50t + 20\dd t \\
+            &= \frac{125}{3}t^3 - 25t^2+20t \biggr|_0^1 \\
+            &= \frac{125}{3}-5
+        \end{align*}
+    \bf{Solution (2):}
+        We can parameterize $C_2$ with the function
+        \[ \vec r_2(t) = \langle 4-t^2, t\rangle, \quad t\in[-3, 2]\]
+        Then, we obtain $\vec r_2'(t) = \< -2t, 1\>$ and therefore
+        \begin{align*}
+            \int_{C_2}y^2\dd x + x\dd y &= \int_{-3}^{2} t^2(-2t)+(4-t^2)\dd t \\
+            &= \int_{-3}^2 \bqty{-2t^3-t^2+4}\dd t \\
+            &= -\frac{1}{2}t^4-\frac{1}{3}t^3+4t\biggr|_{-3}^2 \\
+            &= 40+\frac{5}{6}
+        \end{align*}
+\end{example}
+Notice that despite these curves having the same endpoints, we got two different answers by following different paths. This indicates that the value of a line integral is not always dependent on solely the endpoints. We will explore this idea further in a little bit. \par
+We can also notice that the answers will depend on the orientation of the curve. If we instead followed the curve going the opposite direction as $C_1$ (denoted by $-C_1$), we would instead get a result of $5/6$. This, interestingly, happens to be off from $\int_{C_1} y^2\dd x + x\dd y$ by a factor of $-1$. \par
+This fact will actually turn out to be generally true. That is,
+\[ \int_{-C}f(x,y)\dd x + g(x,y)\dd y = -\int_C f(x,y)\dd x + g(x,y)\dd y\]
+However, if we instead integrate with respect to arc length, we get the \textit{same} result:
+\[ \int_{-C}f(x,y)\dd s = \int_C f(x,y)\dd s\]
+This is because the $\dd x\,$s and $\dd y\,$s may be negative or positive depending on the direction, but $\dd s$, which represents a length, is always positive.
+\begin{example}
+    Evaluate $\int_C y\sin z\dd s$, where $C$ is the circular helix given by the equations $x = \cos t$, $y = \sin t$, $z=t$, $t\in[0, 2\pi]$. 
+    \par\bf{Solution: }We haven't seen line integrals in space before. However, the process is much the same. First, we can arrange our equations for $x$, $y$, and $z$ into a single vector-valued function to obtain
+    \[ \vec r(t) = \< \cos t, \sin t, t\> \]
+    Which tells us
+    \[ \vec r'(t) = \< -\sin t, \cos t, 1 \>\]
+    and 
+    \[ \norm{\vec r'(t)} = \sqrt{\sin^2t + \cos^2t + 1} = \sqrt 2\]
+    Therefore, we find
+    \begin{align*}
+        \int_C y\sin z \dd s &= \int_0^{2\pi}y(t)\sin(z(t))\norm{\vec r'(t)}\dd t\\
+        &= \sqrt 2\int_0^{2\pi}\sin^2t\\& = \frac{\sqrt 2}2\int_0^{2\pi}[1-\cos(2t)]\dd t \\
+        &= \boxed{\sqrt{2}\pi}
+    \end{align*}
+\end{example}
+\begin{example}
+    Evaluate $\int_C y\dd x + z\dd y + x\dd z$, where $C$ consists of the line segment $C_1$ from $(2,0,0)$ to $(3,4,5)$ followed by the vertical line segment $C_2$ from $(3,4,5)$ to $(3,4,0)$.
+    \par\bf{Solution: }The first observation we should make is that
+    \[ \int_C y\dd x + z\dd y + x\dd z = \int_{C_1}y\dd x + z\dd y + x\dd z + \int_{C_2}y\dd x + z\dd y + x\dd z\]
+    This effectively splits the problem into two sub-problems. First, let's tackle the left integral that follows $C_1$. We can parameterize $C_1$ with the equation
+    \[ \vec r(t) = (1-t)\<2,0,0\> + t\<3,4,5\> = \< 2+t, 4t, 5t\>, \quad t\in[0,1] \]
+    Therefore, we obtain $\dd x = \dd t$, $\dd y = 4\dd t$, and $\dd z = 5\dd t$. This allows us to rewrite our integral
+    \begin{align*}
+        \int_{C_1}y\dd x + z\dd y + x\dd z &= \int_0^1 4t + 20t + 5(2+t) \dd t \\
+        &= \int_0^1 [29t+10]\dd t = \frac{29}{2}t^2+10t\biggr|_0^1 = 24.5
+    \end{align*}
+    Now, we can tackle $C_2$. It is much the same process. We can find
+    \[ \vec r(t) = (1-t)\<3,4,5\> + t\<3,4,0\> = \< 3, 4, 5-5t\>, \quad t\in[0,1]\]
+    this is nice because the $\dd x$ and $\dd y$ terms will just go to zero. So our integral just becomes
+    \begin{align*}
+        \int_{C_2}y\dd x + z\dd y + x\dd z &= \int_0^1 -15\dd t = -15
+    \end{align*}
+    So we just add these up to obtain the value of the integral over the whole path:
+    \[ \int_C y\dd x + z\dd y + x\dd z = 24.5-15 = 9.5\]
+\end{example}
+\subsection{Line Integrals of Vector Fields}
+Recall that the work done on a particle moving in a straight line from $\vec a$ to $\vec b$ with a particular force $\vec F$ is given by $W = \vec F \cdot (\vec b - \vec a)$. Suppose now that we wished to compute the work done on an object moving in some force field $\vec F(x,y,z) = \<P,Q,R\>$ along an arbitrary path $C$. One way that we may be able to do this is by splitting $C$ into infinitely many sub-arcs and adding up all of the differential works from each path. \par
+This should be starting to sound a little familiar. \par
+Say we split $C$ into $n$ sub-arcs $C_{i}C_{i+1}$ with lengths $\Delta s_i$. Now, we choose any point $P_i^*(x_i^*, y_i^*, z_i^*)$ on each sub-arc and compute the work using the displacement from $P_{i}$ to $P_{i+1}$. 
+\[ W_i = \vec F(x_i^*, y_i^*, z_i^*) \cdot \Delta s_i \vec T_i\]
+where $\vec T_i$ is the tangent vector to $C$ at $P_i^*$.
+This can then be summed up over each sub-arc to obtain
+\[ W = \lim_{n\to\infty} \sum_{i=1}^n \bqty{\vec F(x_i^*, y_i^*, z_i^*)\cdot \vec T_i}\Delta s_i \]
+which can then be easily turned into integral form:
+\[ W = \int_C \vec F \cdot \vec T \dd s\]
+If $C$ is represented by some $\vec r(t)$ with $t\in[a,b]$, then we can recall that $\vec T = \vec r'/\norm{\vec r'}$ and $\dd s = \norm{\vec r'}\dd t$. This allows us to rewrite: 
+\[ W = \int_a^b \bqty{\vec F(\vec r(t)) \cdot \frac{\vec r'(t)}{\norm{\vec r'(t)}}} \norm{\vec r'(t)}\dd t\]
+and we obtain our final formula
+\[ W = \int_a^b \vec F(\vec r(t))\cdot \vec r'(t) \dd t\]
+which is also written as
+\[ W = \int_C \vec F \cdot \dd \vec r\]
+This new type of line integral shows up in many applications, especially in physics. 
+\begin{example}
+    Find the work done by the force field $\vec F(x,y) = \<x^2, -xy\>$ in moving a particle counter-clockwise around the quarter of the unit circle in the first quadrant.
+    \par\bf{Solution: }We can first parameterize the path as
+    \[ \vec r(t) = \< \cos t, \sin t\>, \quad t\in[0, \pi/2]\]
+    Then, we find $\vec r'(t) = \<-\sin t, \cos t\>$. This will give us
+    \begin{align*}
+        \int_C\vec F \cdot \dd \vec r &= \int_0^{\pi/2}\<x^2, -xy\>\cdot \<x'(t), y'(t)\>\dd t \\
+        &= \int_0^{\pi/2}\bqty{-2\sin t\cos^2t }\dd t \\
+        &= \frac{2}{3}(\cos t)^3\biggr|_0^{\pi/2} = -\frac{2}{3}
+    \end{align*}
+\end{example}
+Another thing to note is that $\int_C \vec F \cdot \dd \vec r = -\int_{-C}\vec F \cdot \dd \vec r$ because the unit tangent vector $\vec T$ is multiplied by $-1$ when reversing the path.
+\begin{example}
+    Evaluate $\int_C \vec F\cdot \dd \vec r$ where $\vec F(x,y,z) = \<xy, yz, zx\>$ and $C$ is the twisted cubic given by $\vec r(t) = \<t, t^2, t^3\>$, $t\in[0,1]$.
+    \par\bf{Solution: }Pretty simple--just plug in.
+    \begin{align*}
+        \int_C\vec F \cdot \dd \vec r &= \int_0^1 \<t^3, t^5, t^4\>\cdot \< 1, 2t, 3t^2\>\dd t \\
+        &= \int_0^1 [5t^6+t^3]\dd t = \frac{5t^7}{7}+\frac{t^4}{4}\biggr|_0^1 = \frac{5}{7}+\frac{1}{4}
+    \end{align*}
+\end{example}
+One more thing to note is the connection between line integrals of vector fields and line integrals of scalar fields. Suppose $\vec F = \<P,Q,R\>$. Then,
+\begin{align*}
+    \int_C \vec F \cdot \dd \vec r &= \int_a^b \vec F(\vec r(t))\cdot \vec r'(t)\dd t \\
+    &= \int_a^b \<P(x(t), y(t), z(t)),Q(x(t), y(t), z(t)),R(x(t), y(t), z(t))\> \cdot \<x'(t), y'(t), z'(t)\>\dd t \\
+    &= \int_a^b x'(t)P(x(t), y(t), z(t)) + y'(t)Q(x(t), y(t), z(t)) + z'(t)R(x(t), y(t), z(t))\dd t \\
+    &= \int_C P\dd x + Q\dd y + R \dd z
+\end{align*}
+\subsection{The Fundamental Theorem for Line Integrals}
+There is an analogue to the fundamental theorem of calculus for line integrals. 
+\begin{definition}
+    Let $C$ be a smooth curve given by the vector function $\vec r(t)$ with $t\in[a,b]$. Let $f$ be a differentiable function of multiple variables whose gradient vector $\bnabla f$ is continuous on $C$. Then,
+    \[ \int_C \bnabla f \cdot \dd \vec r = f(\vec r(b)) - f(\vec r(a)) \]
+\end{definition}
+\begin{proof}
+    Let $f$ be a function from $\RR^n$ to $\RR$. Then, 
+    \[ \bnabla f = \< f_{x_1}, \dots, f_{x_n} \>\]
+    and 
+    \[ \dd \vec r = \< x_1'(t), \dots, x_n'(t)\>\dd t\]
+    Therefore, we obtain
+    \begin{align*}
+        \int_C \bnabla f \cdot \dd \vec r &= \int_a^b \< f_{x_1}(\vec r(t)), \dots, f_{x_n}(\vec r(t)) \> \cdot  \< x_1'(t), \dots, x_n'(t)\>\dd t \\
+        &= \int_a^b x_1'(t)f_{x_1}(\vec r(t)) + \dots + x_n'(t)f_{x_n}(\vec r(t)) \dd t \\
+        &= \int_a^b \dv{t}\bqty{f(\vec r(t))} \dd t \\
+        &= f(\vec r(b)) - f(\vec r(a))
+    \end{align*}
+\end{proof}
+\begin{example}
+    Find the work done by the gravitational field as a particle moves from $\vec r_0 = \<x_0, y_0, z_0\>$ to $\vec r_1 = \< x_1, y_1, z_1\>$
+    \[ \vec F(x) = -\frac{mMG}{\norm{\vec x}^3}\vec x\]
+    \bf{Solution: }From earlier, we can recall that $\vec F = \bnabla f$, where
+    \[f(\vec x) = -\frac{mMG}{\norm{\vec x}}\]
+    Therefore, the work done is 
+    \begin{align*}
+        W &= \int_C \vec F \cdot \dd\vec r = \int_C \bnabla f \cdot \dd \vec r \\
+        &= f(\vec r_1) - f(\vec r_0) \\
+        &= -mMG\pqty{\frac{1}{\sqrt{x_1^2+y_1^2+z_1^2}}-\frac{1}{\sqrt{x_0^2+y_0^2+z_0^2}}}
+    \end{align*}
+\end{example}
+\subsubsection{Independence of Path}
+Suppose $C_1$ and $C_2$ are two piecewise-smooth curves (paths) that have the same beginning and end points. We know that in general, $\int_{C_1}\vec F \cdot \dd \vec r \neq \int_{C_2} \vec F \cdot \dd \vec r$. However, one implication of the fundamental theorem for line integrals is that
+\[ \int_{C_1} \bnabla f \cdot \dd \vec r = \int_{C_2} \bnabla f \cdot \dd \vec r\]
+Whenever $\bnabla f$ is continuous. In other words, the line integral of a conservative vector field depends only on the initial and terminal point of the path. \par
+\subsubsection{Closed Curves}
+A curve is called \bf{closed} if its terminal point is at the same location as its initial point. When the curve of a line integral is closed, we use a special form of notation:
+\[ \oint_C \vec F \cdot \dd \vec r\]
+Indicates a closed line integral. Another consequence of the fundamental theorem for line integrals is that the closed line integral of a conservative vector field is always zero.
+\begin{align*}
+    \oint\bnabla f\cdot \dd \vec r &= f(\vec r_1) - f(\vec r_0)
+\end{align*}
+But since $\vec r_1 = \vec r_0$,
+\[ f(\vec r_1) - f(\vec r_0) = 0\]
+\begin{theorem}
+    $\oint_C \vec F \cdot \dd \vec r$ is independent of path in some region $D$ if and only if $\oint_C \vec F \cdot \dd \vec r = 0$ for every closed path $C$ in $D$.
+\end{theorem}
+\begin{theorem}
+\label{clsdpth}
+    Suppose $\vec F: \RR^n\to\RR^n$ is a vector field that is in an open connected region $D$. If $\int_C\vec F\cdot \dd \vec r$ is independent of path in $D$, then $\vec F$ is a conservative vector field--that is, there exists some $f:\RR\to\RR^n$ such that $\bnabla f = \vec F$. 
+\end{theorem}
+\begin{proof}
+    
+    Let $A(a_1, \dots, a_n)$ be a fixed point in $B_1(b_1, \dots, b_n)$ to $P$. We can define a function $f(b_1, \dots, b_n)$ such that
+    \[ f(b_1, \dots, b_n) = \int_C \vec F\cdot \dd \vec r.\]
+    Additionally suppose $\int_C\vec F \cdot \dd \vec r$ is independent of path. \par 
+    We will also introduce some new notation. Instead of writing a line integral with respect to a path, we can (in the case where the integral is independent of path) write a line integral with respect to only the beginning and end points, like so:
+    \[ \int_C \vec F \cdot \dd \vec r = \int_{(a_1, \dots, a_n)}^{(b_1, \dots, b_n)}\vec F \cdot \dd \vec r\]
+    Because $D$ is open, then there must exist some hypersphere $S$ with a nonzero radius entirely contained in $D$ centered around $A$. We can now choose some new point in $S$: $B_2(b_1^*, \dots, b_n)$ with $b_1^*<b_1$. This is the same point as $B_1$, except shifted down along only the first axis. We can then split $C$ into two paths: $C_1$, which goes from $A_1$ to $B_1$. And $C_2$ which goes from $B_1$ to $B_2$. Then, we can write
+    \[ f(b_1, \dots, b_n) = \int_{(a_1, \dots, a_n)}^{(b_1^*, \dots, b_n)} + \int_{(b_1^*, \dots, b_n)}^{(b_1, \dots, b_n)}\vec F \cdot \dd r\]
+    Because the first integral does not depend on $b_1$, we can find
+    \[ \pdv{b_1}f(b_1, \dots, b_n) = 0 + \pdv{b_1} \int_{(b_1^*, \dots, b_n)}^{(b_1, \dots, b_n)}\vec F \cdot \dd r \]
+    If we write $\vec F = \langle F_1, \dots F_n\rangle$, then
+    \[  \int_{(b_1^*, \dots, b_n)}^{(b_1, \dots, b_n)}\vec F \cdot \dd r =  \int_{(b_1^*, \dots, b_n)}^{(b_1, \dots, b_n)}F_1\dd b_1 + \dots + F_n\dd b_n\]
+    On $C_2$, all of $b_2$ through $b_n$ are constant, so $\dd b_2 = \cdots = \dd b_n = 0$. Therefore,
+    \[ \pdv{b_1}f(b_1, \dots, b_n) = \pdv{b_1}\int_{(b_1^*, \dots, b_n)}^{(b_1, \dots, b_n)}F_1\dd x_1 = \pdv{b_1}\int_{b_1^*}^{b_1}F_1(t, b_2, \dots, b_n)\dd t = F_1(b_1, \dots, b_n) \]
+    We can repeat this exact process for each $b_2$ through $b_n$ to obtain
+    \[ \pdv{b_i}f(b_1, \dots, b_n) = F_i(b_1, \dots b_n)\]
+    Therefore, 
+    \[ \vec F = \< F_1, \dots, F_n\> = \< \pdv{b_1} f, \dots, \pdv{b_n} f \> \]
+    Which tells us that $\vec F = \bnabla f$, proving the theorem.
+\end{proof}
+\subsection{Finding Potential Functions}
+The question still remains: How can we determine if a vector field is conservative or not? \par
+Suppose it is known that $\vec F = \< F_1, \dots F_n\>$ is conservative, where each $F_i$ has continuous $n-1$th order partial derivatives. Then there exists some function $f: \RR\to\RR^n$ such that $\vec F = \bnabla f$. That is, each $F_i = \pdv{f}{x_i}$. \par
+From this, we can also obtain
+\[ \frac{\partial F_i}{\partial x_1\cdots \partial x_{i-1}\partial_{x+1}\cdots\partial x_n} = \frac{\partial f}{\partial x_1\cdots \partial x_n}\]
+for all $i$ between $1$ and $n$. Therefore, by Clairaut's theorem, we find
+\[ \frac{\partial F_1}{\partial x_2\cdots\partial x_n} = \frac{\partial F_2}{\partial x_1\partial x_3\cdots\partial x_n} = \cdots = \frac{\partial F_n}{\partial x_1\cdots\partial x_{n-1}} = \frac{\partial f}{\partial x_1\cdots\partial x_n}\]
+\begin{theorem}
+    If $\vec F = \< F_1, \dots F_n\>$ is a conservative vector field where each $F_i$ has continuous $n-1$th order partial derivatives on a domain $D$, then throughout $D$ we have
+    \[ \frac{\partial F_1}{\partial x_2\cdots\partial x_n} = \frac{\partial F_2}{\partial x_1\partial x_3\cdots\partial x_n} = \cdots = \frac{\partial F_n}{\partial x_1\cdots\partial x_{n-1}} \]
+\end{theorem}
+However, this theorem is often too clunky to apply for any regions of a higher dimension than $\RR^2$. We will instead focus solely on the two dimensional version of this theorem:
+\begin{theorem}
+     If $\vec F = \< F_1, F_2\>$ is a conservative vector field where $F_1$ and $F_2$ have continuous first order partial derivatives on a domain $D$, then throughout $D$ we have
+    \[ \pdv{F_1}{y} = \pdv{F_2}{x} \]
+\end{theorem}
+The converse of these theorems (which, you may notice, is the critical part for determining whether a field is conservative) only applies under a special type of region. To explain this, we must first introduce the idea of a \bf{simple curve}. Simple curves are curves which do not intersect themselves at any point except perhaps at the endpoints. \par
+The converse only applies over so-called \bf{simply-connected regions}. A simply-connected region is a region $D$ such that every simple closed curve in $D$ encloses points that are in $D$. Physically speaking, this is a region with no ``holes". \par
+Therefore, we obtain
+\begin{theorem}
+    If $\vec F = \< F_1, \dots F_n\>$ is a vector field where each $F_i$ has continuous $n-1$th order partial derivatives on an open simply-connected domain $D$ and 
+    \[ \frac{\partial F_1}{\partial x_2\cdots\partial x_n} = \frac{\partial F_2}{\partial x_1\partial x_3\cdots\partial x_n} = \cdots = \frac{\partial F_n}{\partial x_1\cdots\partial x_{n-1}} \]
+    throughout $D$, then $\vec F$ is conservative.
+\end{theorem}
+And the appropriate version in $\RR^2:$
+\begin{theorem}
+     If $\vec F = \< F_1, F_2\>$ is a vector field where $F_1$ and $F_2$ have continuous first order partial derivatives on an open, simply-connected domain $D$ and
+    \[ \pdv{F_1}{y} = \pdv{F_2}{x} \]
+    throughout $D$, then $\vec F$ is conservative. \label{gthmprf}
+\end{theorem}
+We will skip the proofs of these theorems for now, as they become much simpler with the help of a future topic (Green's Theorem).
+\begin{example}
+    Determine whether the vector field $\vec F(x,y) = \< x-y, x-2\>$ is conservative.\par
+    \bf{Solution:} $\pdv{y}(x-y) = -1$ and $\pdv{x}(x-2)=1$. Because $\partial F_1 / \partial y \neq \partial F_2 / \partial x$, $\vec F$ is not conservative.
+\end{example}
+\begin{example}
+    Determine whether the vector field $\vec F(x,y)=\< 3+2xy, x^2-3y^2\>$ is conservative.\par
+    \bf{Solution:} The domain of $\vec F$--$\RR^2$--is open and simply connected. Further, $\pdv{y}(3+2xy) = 2x$ and $\pdv{x}(x^2-3y^2)=2x$. Because $\partial F_1 / \partial y = \partial F_2 / \partial x$, $\vec F$ is conservative.
+\end{example}
+Every function $f$ such that $\bnabla f = \vec F$ is known as a potential function for $\vec F$. To find the potential function of a conservative field, we employ ``partial integration" on each of the components of $\vec F$ to find the functions that are partially differentiated to become the original components. It is easiest to illustrate with an example.
+\begin{example}
+    Find all potential functions of $\vec F(x,y) = \< 3+2xy, x^2-3y^2\>$. \par
+    \bf{Solution:} Let $f$ be a function such that $\bnabla f = \vec F$. Then, we know
+    \[ f_x = 3+2xy\quad\text{and}\quad f_y = x^2-3y^2.\]
+    If we perform partial integration on $f_x$, we find that
+    \[ f(x,y) = 3x+x^2y\]
+    However, we also have to include constants of integration. Instead of just being one simple $+C$ on the end, however, we must notice that because our integration is only allowing $x$ to change, all functions of purely $y$ are also constant. Therefore,
+    \[ f(x,y) = 3x+x^2y+C_1(y)\]
+    Doing the same process on $f_y$, we find that
+    \[ f(x,y) = x^2y-y^3+C_2(x)\]
+    We can notice that, when combined, these two functions describing $f$ can be combined to tell us more about $f$. The first function, $C_1(y)$, can be matched with the $-y^3$ term. Similarly, $C_2(x)$ can be matched with $3x$. Overall, we obtain
+    \[ f(x,y) = x^2y-y^3+3x+C\]
+    Where $C$ is a constant, not dependent on either $x$ or $y$.
+\end{example}
+\begin{example}
+    If $\vec F(x,y,z) = \< y^2, 2xy+e^{3z}, 3ye^{3z}\>$ is conservative, then find all potential functions of $\vec F$. \par
+    \bf{Solution:} We have 
+    \begin{align}
+        f_x(x,y,z) &= y^2 \label{151} \\
+        f_y(x,y,z) &= 2xy+e^{3z} \label{152}\\
+        f_z(x,y,z) &= 3ye^{3z} \label{153}
+    \end{align}
+    Which gives us
+    \begin{align}
+        f(x,y,z) &= xy^2+C_1(y,z) \\
+        f(x,y,z) &= xy^2+ye^{3z} + C_2(x,z) \\
+        f(x,y,z) &= ye^{3z} + C_3(x,y)
+    \end{align}
+    Combining these, we find
+    \[ f(x,y,z) = xy^2+ye^{3z}+C\]
+\end{example}
+\subsection{Conservation of Energy}
+We can apply the ideas of this chapter to a physical situation. Consider a continuous force field $\vec F$ that moves an object along a path $C$ given by $\vec r(t)$, $t\in[a,b]$, where $\vec r(a)=A$ is the initial point and $\vec r(b) = B$ is the terminal point. According to Newton's second law of motion, the force $\vec F(\vec r(t))$ at a point on $C$ is related to the acceleration $\vec a(t) = \vec r''(t)$ by the equation
+\[ \vec F(\vec r(t)) = m\vec r''(t) \]
+So the work done by the force on the object is
+\begin{align*}
+    W &= \int_C \vec F\cdot \dd \vec r = \int_a^b \vec F(\vec r(t))\cdot \vec r'(t)\dd t \\
+    &= \int_a^b m\vec r''(t)\cdot \vec r'(t)\dd t \\
+    &= \frac{1}{2}m\int_a^b \dv{t}\bqty{\vec r'(t)\cdot \vec r'(t)}\dd t \\
+    &= \frac{1}{2}m\int_a^b\dv{t}\norm{\vec r'(t)}^2\dd t \\
+    &= \frac{1}{2}m\norm{\vec r'(t)}^2\biggr|_a^b \\
+    &= \frac{1}{2}m\norm{\vec r'(b)}^2 - \frac{1}{2}m\norm{\vec r'(a)}^2
+\end{align*}
+If you've taken a physics course, you may remember this formula: $W = \Delta K$, where $K = \frac{1}{2}mv^2$ is the kinetic energy. \par
+Now, if we make the further assumption that $\vec F$ is a conservative force field, then we can write $\vec F = \bnabla f$. In physics, we define the \bf{potential energy} of an object as $U(x,y,z) = -f(x,y,z)$. Therefore, we have $\vec F = -\bnabla U$ (This formula might also look familiar, although you may have learned it as $F = -\dv{U}{x}$). \par
+From this, we can write
+\begin{align*}
+    W &= -\int_C \bnabla U\cdot \dd r \\
+    &= -[U(\vec r(b)) - U(\vec r(a))] \\
+    &= U(\vec r(a)) - U(\vec r(b))
+\end{align*}
+Combining this with our previous equation, we find
+\[ U(\vec r(a))-U(\vec r(b)) = K(\vec r(b)) - K(\vec r(a))\]
+Which can be rearranged to obtain
+\[K(\vec r(a)) + U(\vec r(a)) = K(\vec r(b)) + U(\vec r(b))\]
+which is the famous expression of \bf{the law of conservation of energy}--the sum of the kinetic and potential energies of an object moving through a conservative force field is constant.
+\subsection{Green's Theorem}
+Green's Theorem is one of the most important results of Calculus III, as it gives the relationship between the line integral around a simple closed curve $C$ and the double integral of the plane region $D$ bounded by $C$. \par
+In stating Green's Theorem, we use the convention that the \bf{positive orientation} of a simple closed curve $C$ refers to single counterclockwise traversal of $C$. This, if $C$ is given by the vector function $\vec r(t)$ with $t\in[a,b]$, then the region $D$ appears on the left hand side of an observer following $C$ along $\vec r$ (assuming the observer is looking in the direction that they are moving). 
+\begin{theorem}[Green's Theorem]
+    Let $C$ be the positively oriented, piece-wise smooth, simple closed curve in the plane and let $D$ be the region bounded by $C$. If $P$ and $Q$ have continuous partial derivatives on an open region that contains $D$, then
+    \[ \int_C P\dd x + Q\dd y = \iint\limits_D \pqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A\]
+\end{theorem}
+The notations
+\[\oint_C P\dd x + Q\dd y \quad\quad \ointctrclockwise_C P\dd x + Q\dd y \quad\text{and}\quad \int_{\partial D}P\dd x + Q\dd y\]
+is sometimes used in place of $\int_C P\dd x + Q\dd y$. \par
+Green's Theorem can be regarded as the equivalent of the Fundamental Theorem of Calculus for double integrals. \par
+In fact, if you continue to study calculus further, you'll find that Green's theorem, the Fundamental Theorem of Calculus, the Fundamental Theorem of Line Integrals, and Stokes' Theorem (we will learn about this one later) are all, in fact, one and the same. They are all special cases of the so-called \it{Generalized Stokes' Theorem}. \par
+Proving Green's Theorem for the general case is extremely difficult, but we can give a proof in the special case where $D$ can be expressed nicely as a region that can be expressed as \it{both} a type I and type II region. We will call such regions \bf{simple regions}.
+\begin{proof}[Proof of Green's Theorem for Simple Regions]
+    Notice that if we are able to show that
+    \[ \int_C P \dd x = -\iint\limits_D \pdv{P}{y}\dd A\]
+    and 
+    \[ \int_C Q\dd y = \iint\limits_D \pdv{Q}{x}\dd A\]
+    separately, then we have proven the whole statement. We can prove the first one of these by expressing the region $D$ as a type I region:
+    \[ D = \{(x,y)|x\in[a,b], y\in[g_1(x),g_2(x)]\}\]
+    Therefore,
+    \begin{align*}
+        -\iint\limits_D \pdv{P}{y}\dd A &= -\int_a^b\int_{g_1(x)}^{g_2(x)}\pdv{P}{y}\left(x,y\right)\,\dd y\dd x \\
+        &= \int_a^b [P(x, g_1(x)) - P(x, g_2(x))]\dd x
+    \end{align*}
+    We can also attempt to compute $\int_CP\dd x$. Notice that $C$ is actually the union of four piecewise-smooth curves, which we will denote by $C_1, C_2, C_3$, and $C_4$.
+    \begin{enumerate}
+        \item $C_1$ is the bottom curve where the $x$-coordinate ranges between $a$ and $b$ and the $y$ coordinate is given by $g_1(x)$. 
+        \item $C_2$ is the rightmost curve where the $x$-coordinate is constant at $b$ and the $y$ coordinate goes from $g_1(b)$ to $g_2(b)$.
+        \item $C_3$ is the top curve where the $x$-coordinate ranges between $b$ and $a$ and the $y$ coordinate is given by $g_2(x)$.
+        \item $C_4$ is the rightmost curve where the $x$-coordinate is constant at $a$ and the $y$ coordinate goes from $g_2(a)$ to $g_1(a)$.
+     \end{enumerate}
+     Therefore, $\int_C P\dd x = \int_{C_1}P\dd x+ \int_{C_2}P\dd x+ \int_{C_3}P\dd x+ \int_{C_4}P\dd x$. \par
+     For $C_1$, we can write
+     \[ \int_{C_1}P(x,y)\dd x = \int_a^b P(x,g_1(x))\dd x\]
+     For $C_2$ and $C_4$, the $x$-coordinate is constant so they just go to zero. \par
+     For $C_3$, we can write
+     \[ \int_{C_3}P(x,y)\dd x = \int_b^a P(x, g_2(x))\dd x = -\int_a^bP(x,g_2(x)\dd x\]
+     Adding each of these up, we obtain the total line integral
+     \[ \int_C P(x,y)\dd x = \int_a^b P(x,g_1(x)) - P(x, g_2(x))\dd x\]
+     This is exactly the expression for $-\iint\limits_D \pdv{P}{y}\dd A$ we found earlier, proving the first half of the theorem. \par
+     The second half is proven in pretty much the exact same manner, so we will omit it here.
+\end{proof}
+\begin{example}
+    Evaluate $\int_C x^4\dd x+xy\dd y$, where $C$ is the triangular curve with vertices $(0,0)$, $(1,0)$, and $(0, 1)$.\par
+    \bf{Solution:} We're going to use Green's Theorem to solve this. Using Green's Theorem, we find
+    \begin{align*}
+        \int_C P\dd x + Q\dd y &= \iint\limits_D \pqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A
+    \end{align*}
+    If we plug the functions in,
+    \begin{align*}
+        \int_C x^4\dd x + xy\dd y &= \int_0^1 \int_0^{1-x} y\dd y\dd x \\
+        &= \frac{1}{2}(1-x)^2\dd x = -\frac{1}{6}(1-x)^3\biggr|_0^1 = \frac{1}{6}
+    \end{align*}
+\end{example}
+\begin{example}
+    Evaluate $\oint_C \bqty{3y-e^{\sin x}}\dd x + \bqty{7x+\sqrt{y^4+1}}\dd y$ where $C$ is the circle $x^2+y^2=9$.\par
+    \bf{Solution:} We could just evaluate this normally but that looks, annoying, so we're going to use Green's Theorem instead. With Greens' Theorem, we find
+    \begin{align*}
+        \oint_C P\dd x + Q\dd y &= \iint\limits_D \pqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A
+    \end{align*}
+    If we plug the functions in,
+    \begin{align*}
+        \oint_C \pqty{3y-e^{\sin x}}\dd x + \pqty{7x+\sqrt{y^4+1}}\dd y &= \int_0^{2\pi}\int_0^3 \bqty{7-3}r\dd r\dd \theta \\
+        &= 8\pi\int_0^3 r\dd r = 36\pi
+    \end{align*}
+\end{example}
+Another application of Green's Theorem is in computing areas. Since the area of $D$ is $\iint_D 1\dd A$, we wish to choose $P$ and $Q$ so that
+\[ \pdv{Q}{x} - \pdv{P}{y} = 1\]
+There are several possibilities, but a few of easier-to-compute ones are as follows:
+\begin{align*}
+    P(x,y) = 0 \qquad P(x,y) = -y \qquad P(x,y) = -\frac{1}{2}y \\
+    Q(x,y) = x \qquad Q(x,y) = 0 \qquad Q(x,y) = -\frac{1}{2}x
+\end{align*}
+Which gives us a few ways of finding the area of $D$:
+\[A = \oint_C x\dd y = -\oint_C y\dd x = \frac{1}{2}\oint_C x\dd y- y\dd x\]
+\begin{example}
+    Find the area enclosed by the ellipse $\frac{x^2}{a^2} + \frac{y^2}{b^2}=1$. \par
+    \bf{Solution:} The ellipse is described by $\vec r(t) = \< a\cos t, b\sin t\>$ with $t\in[0, 2\pi]$. We could find the area with a complicated, annoying double integral, or use Green's Theorem.
+    \begin{align*}
+        A = \frac{1}{2}\oint_C x\dd y - y\dd x &= \frac{1}{2}\int_0^{2\pi}[a\cos t][b \cos t] - [b\sin t][-a\sin t]\dd t \\
+        &= \frac{1}{2}ab\int_0^{2\pi}[\cos^2 t+ \sin^2t]\dd t = \pi ab
+    \end{align*}
+\end{example}
+\begin{example}
+    Evaluate $\oint_C y^2\dd x + 3xy\dd y$ where $C$ is the boundary of the semicircular region $D$ in the upper half of the $xy$ plane between the circles $x^2+y^2=1$ and $x^2+y^2=4$. \par
+    \bf{Solution:} We can write $D$ as the region
+    \[ D = \{ (r, \theta)|r\in[1, 2], \theta\in[0,\pi]\}\]
+    Therefore, Green's Theorem gives us
+    \begin{align*}
+        \oint_C y^2\dd x + 3xy\dd y &= \iint_D \bqty{\pdv{x}3xy-\pdv{y}y^2}\dd A = \iint_D y\dd A\\
+        &= \int_0^\pi\int_1^2 r^2\sin\theta\dd r\dd \theta \\
+        &= \frac{7}{3}\int_0^\pi \sin \theta\dd \theta = \frac{14}{3}
+    \end{align*}
+\end{example}
+We can further Green's Theorem to two more types of regions. First, we have regions that are the finite union of simple regions, although we will not show that proof here. \par
+Secondly, we have regions that are not simply-connected--that is, regions with holes. 
+\picture{0.3\textwidth}{region_with_hole.png}\par
+Consider the above region $D$. Its boundary $C$ can be split up into the union of the inner and outer boundaries $C_1$ and $C_2$. Because of our earlier assumption that positive orientation keeps the region on the left side, $C_2$ is oriented clockwise and $C_1$ is oriented counterclockwise. \par
+We can draw two lines that can be used to split $C$ in a different way that splits $D$ into the union of two simply-connected regions $D'$ and $D''$, as below:
+\picture{0.3\textwidth}{region_with_hole_2.png}\par
+Therefore, we are able to say:
+\begin{align*}
+    \iint\limits_D \pqty{\pdv{Q}{x} - \pdv{P}{y}}\dd A &= \iint\limits_{D'}\pqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A + \iint\limits_{D''}\pqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A \\
+    &= \int_{\partial D'}P\dd x + Q\dd y + \int_{\partial D''}P\dd x + Q\dd y
+    \end{align*}
+Then, we can notice that $\partial D'$ and $\partial D''$ share a common line segment, except running in opposite directions. Because it is known that
+\[ \int_{C}P\dd x + Q\dd y = -\int_{-C}P\dd x + Q\dd y\]
+We can say that the line integral over these segments will cancel, and we can rewrite as
+\[ \iint\limits_D \pqty{\pdv{Q}{x} - \pdv{P}{y}}\dd A = \int_{C_1\cup C_2}P\dd x + Q\dd y = \int_C P\dd x + Q\dd y\]
+Now, we can apply this to an example.
+\begin{example}
+    If $\vec F(x,y) = (-y\ihat + x\jhat)/(x^2+y^2)$, show that $\int_C \vec F\cdot\dd r = 2\pi$ for \it{every} positively oriented simple closed path that encloses the origin.\par
+    \bf{Solution:} Since $C$ is an arbitrary closed path that encloses the origin, it will be difficult to evaluate the line integral directly. \par
+    Instead, we'll be taking a different approach via Green's Theorem. First, we will define two curves. $C_1$ is an arbitrary path surrounding the origin. $C_2$ is a circle of radius $a\in\RR_+$ centered about the origin, with $a$ being sufficiently small that $C_2$ is completely enclosed inside $C_1$. Both $C_1$ and $C_2$ are positively oriented--that is, the area enclosed by them (which we will call $D$) is always on the left of the path. \par
+    We can now use Green's Theorem to state:
+    \begin{align*}
+        \int_{C_1\cup C_2}P\dd x + Q\dd y &= \int_{C_1}P\dd x + Q\dd y + \int_{C_2}P\dd x + Q\dd y \\
+        &= \iint\limits_{D}\bqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A \\
+        &= \iint\limits_D \bqty{\frac{y^2-x^2}{(x^2+y^2)^2}-\frac{y^2-x^2}{(y^2+x^2)^2}} = 0
+    \end{align*}
+    Because $\iint_D [Q_x-P_y]\dd A = 0$, we must then have $\int_{C_1} \vec F \cdot \dd \vec r + \int_{C_2}\vec F \cdot \dd \vec r = 0$, or $\int_{C_1}\vec F \cdot \dd \vec r = -\int_{C_2}\vec F \cdot \dd \vec r$. \par
+    Now, since $C_2$ is an easy-to-compute integral, we can find it which will then give us the value of $\int_{C_1}\vec F \cdot \dd \vec r$. \par
+    Remember that $C_2$ is positively oriented with respect to $D$, which means that it is a \textit{clockwise} circle. To replace it with the more familiar counter clockwise circle, we will instead integrate over $-C_2$, with the knowledge that $\int_{-C_2}\vec F \cdot \dd \vec r = -\int_{C_2}\vec F \cdot \dd \vec r$. 
+    \begin{align*}
+        \int_{-C_2}\vec F \cdot \dd \vec r &= \int_0^{2\pi} \vec F(a\cos t, a\sin t)\cdot \vec r'(t)\dd t \\
+        &= \int_0^{2\pi}\bqty{(-a\sin t)\frac{-a\sin t}{(a\cos t)^2+(a\sin t)^2} + (a\cos t)\frac{a\cos t}{(a\cos t)^2+(a\sin t)^2}}\dd t \\
+        &= \int_0^{2\pi}\dd t = 2\pi
+    \end{align*}
+    Therefore, because $\int_{C_1}\vec F \cdot \dd r = \int_{-C_2}\vec F \cdot \dd r$, we have completed the problem.
+\end{example}
+You may recall that we skipped the proof of Theorem \ref{gthmprf}, stating that it becomes easier with Green's Theorem. Now, it is time to come back to that. \par
+As a refresher, the theorem stated that if $\vec F = \< P, Q\>$ is a vector field in $\RR^2$ with continuous first order partial derivatives, then $\pdv{P}{y} = \pdv{Q}{x}$ for all points in a subset of $D$ of $\vec F$'s domain if and only if $\vec F$ is conservative throughout $D$. \par
+\begin{proof}[Proof of Theorem \ref{gthmprf}]
+Suppose that $\pdv{P}{y} = \pdv{Q}{x}$. Then, Green's Theorem gives us that
+\begin{align*}
+    \oint_C \vec F \cdot \dd \vec r = \iint\limits_D \bqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A = 0
+\end{align*}
+For any closed simple path $C$ in the domain of $\vec F$. Any non simple path can be split up into the finite union of simple curves. \par
+Now, you may recall from Theorem \ref{clsdpth} that the closed line integral of a vector field is zero if and only if that field is conservative. \par
+To prove the inverse, suppose $\vec F$ is conservative. That means that $\vec F$ is also independent of path, and therefore $\oint_C\vec F \cdot \dd \vec r = 0$. Then, by Green's Theorem, we have
+\[ \iint\limits_D \bqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A = \oint_C\vec F \cdot \dd \vec r = 0\]
+Which can only be true if $\pdv{P}{y} = \pdv{Q}{x}$. \par
+ Therefore, $\vec F$ is conservative if and only if $\pdv{P}{y}=\pdv{Q}{x}$.
+\end{proof}
+\subsection{Curl and Divergence}
+There are two more operations which will prove useful in our further study of vector fields--curl and divergence. These operations can both be thought of as different methods of ``differentiation" for vector fields, although one will produce a vector field and the other will produce a scalar field.
+\subsubsection{Curl}
+\begin{definition}
+    If $\vec F = \<P, Q, R\>$ is a vector field that has defined first order partial derivatives throughout some region $D\subset \RR^3$, then the curl of $\vec F$ on $D$ is defined by
+    \[ \curltext \vec F = \<\pdv{R}{y}-\pdv{Q}{z},\, \pdv{P}{z}-\pdv{R}{x},\,\pdv{Q}{x}-\pdv{P}{y}\>\]
+\end{definition}
+One easy way to remember this definition is by defining the differential operator \textit{del} ($\boldsymbol\bnabla$) as
+\[ \boldsymbol\bnabla = \< \pdv{}{x}, \, \pdv{}{y},\,\pdv{}{z}\>\]
+Then, we can remember that $\curltext F$ as
+\[ \curltext \vec F = \curl\vec F = \begin{vmatrix}
+    \ihat & \jhat & \khat \\
+    \pdv{}{x} & \pdv{}{y} & \pdv{}{z} \\
+    P & Q & R
+\end{vmatrix}    
+\]
+This operator is actually useful in some other ways too. We can remember the gradient with
+\[ \bnabla f = \< \pdv{}{x}, \pdv{}{y}, \pdv{}{z}\> f = \< \pdv{f}{x}, \pdv{f}{y}, \pdv{f}{z}\>\]
+There will also be a similar trick for divergence which we will cover. \par
+\begin{example}
+    If $\vec F = \< xz, xyz, -y^2\>$, find $\curltext F$. \par
+    \bf{Solution:} This is as simple as plugging into the formula.
+    \begin{align*}
+        \curl \vec F &=  \begin{vmatrix}
+    \ihat & \jhat & \khat \\
+    \pdv{}{x} & \pdv{}{y} & \pdv{}{z} \\
+    xz & xyz & -y^2
+\end{vmatrix} \\ &= \< \pdv{y}(-y^2) - \pdv{z}(xyz), \pdv{z}(xz) - \pdv{x}(-y^2), \pdv{x}(xyz)-\pdv{y}(xz)\> \\
+&= \< -2y - xy, x, yz\>
+    \end{align*}
+\end{example}
+Another important fact about the curl is its relationship with the gradient.
+\begin{theorem}\label{curlgrad}
+    If $f: \RR^3\to \RR$ has continuous partial derivatives over a region $D\subseteq\RR^3$, then $\curltext(\bnabla f) = \vec 0$.
+\end{theorem}
+\begin{proof}
+Compute $\curltext(\bnabla f)$.
+    \begin{align*}
+        \curltext(\bnabla f) = \curl (\bnabla f) &=  \begin{vmatrix}
+    \ihat & \jhat & \khat \\
+    \pdv{}{x} & \pdv{}{y} & \pdv{}{z} \\
+    \pdv{f}{x} & \pdv{f}{y} & \pdv{f}{z}
+\end{vmatrix}  \\
+&= \< \frac{\partial^2 f}{\partial y\partial z} - \frac{\partial^2 f}{\partial z\partial y}, \frac{\partial^2 f}{\partial z\partial x} - \frac{\partial^2 f}{\partial x \partial z}, \frac{\partial^2 f}{\partial x\partial y} - \frac{\partial^2 f}{\partial y\partial x} \> \\&= \<0, 0, 0\> = \vec 0
+    \end{align*}
+    Recall that according to Clairaut's Theorem, the order in which mixed partials is applied does not matter.
+\end{proof}
+Because a vector field $\vec F$ is conservative if and only if there exists some $f$ such that $\vec F = \bnabla f$, we can use the previous theorem to state that if $\vec F$ is conservative, we must have $\curl \vec F = \vec 0$.\par
+The converse of this will only apply under more strict criteria, requiring that $\vec F$'s domain is simply connected. The proof of the converse will come later, once we have explored Stokes' Theorem.
+\begin{theorem} \label{curlfzero}
+    If $\vec F: \RR^3\to\RR^3$ is a continuous vector field with a simply-connected domain whose component functions have continuous partial derivatives, then $\vec F$ is conservative if and only if $\curl \vec F = \vec 0$. 
+\end{theorem}
+\begin{example}
+    Show that the vector field $\vec F = \<xz, xyz, -y^2\>$ is not conservative.\par
+    \bf{Solution:} We earlier computed $\curl \vec F = \<-2y-xy, x, yz\>$. This, of course, is not equal to $\vec 0$, so $\vec F$ is not conservative.
+\end{example}
+\begin{example}
+    Show that $\vec F = \<y^2z^3, 2xyz^3, 3xy^2z^2\>$ is conservative and find a potential function for it. \par
+    \bf{Solution:} Clearly, the domain of $\vec F$ is simply connected because it is all of $\RR^3$. Therefore, we can check if it is conservative by computing $\curl \vec F$.
+    \begin{align*}
+        \curl \vec F &= \curlmatrix{y^2z^3}{2xyz^3}{3xy^2z^2}\\&= \< 6xyz^2 - 6xyz^2, 3y^2z^2-3y^2z^2, 2yz^3-2yz^3\> = \vec 0
+    \end{align*} 
+    Therefore, $\vec F$ is conservative. To find a potential function, we will integrate each component function.
+    \begin{align*}
+        \int y^2z^3 \dd x &= xy^2z^3 + f(y,z) \\
+        \int 2xyz^3 \dd y &= xy^2z^3 + f(x, z) \\
+        \int 3xy^2z^2 \dd z &= xy^2z^3 + f(x, y)
+    \end{align*}
+    Therefore, we have $f(x,y,z) = xy^2z^3+C$. We can easily verify this as a potential function by computing its gradient and seeing that $\bnabla f = \vec F$.
+\end{example}
+The reason for the name curl is that the curl vector is associated with the tendency of a vector field to \textit{rotate}. If you imagine placing a freely rotating windmill blade in the middle of a vector field $\vec F$ at a point $\vec a$, then $\curl \vec F (\vec a)$ represents the tendency for the windmill to rotate. The direction of rotation is given by the \textit{right hand rule}. If you stick your right thumb in the direction of $\curl \vec F(\vec a)$, then your fingers will curl in the direction that the field is causing rotation. The magnitude of the curl represents how fast this rotation will occur. \par
+If $\curl\vec F=\vec0$, then $\vec F$ is called irrotational--that is, if you were to place a fan in the middle of $\vec F$ as a force field, it would not rotate at all. We will return to this concept later when we explore Stokes' Theorem.
+\subsubsection{Divergence}
+If $\vec F = \<P,Q,R\>$ is a vector field with a domain $D\subseteq\RR^3$ such that $P_x$, $Q_y$, and $R_z$ exist on $D$, then the divergence of $\vec F$ is the scalar field defined by
+\[ \divtext \vec F = \div \vec F = \pdv{P}{x} + \pdv{Q}{y}+\pdv{R}{z} \]
+Similar to curl, we can remember this as
+\[ \div \vec F = \<\pdv{}{x}, \pdv{}{y}, \pdv{}{z}\> \cdot \<P,Q,R\>\]
+\begin{example}
+    If $\vec F = \<xz, xyz, -y^2\>$, find $\div\vec F$.\par
+    \bf{Solution:} Plug in to the formula.
+    \begin{align*}
+        \div \vec F = \pdv{x}(xz) + \pdv{y}(xyz) + \pdv{z}(-y^2) = z+xz
+    \end{align*}
+\end{example}
+If $\vec F$ is a vector field on $\RR^3$, then so is $\curltext\vec F$. Therefore, we can compute $\divtext(\curltext \vec F)$.
+\begin{theorem}
+\label{divcurl}
+    If $\vec F$ is a vector field with a domain $D\subseteq\RR^3$ whose component functions have continuous second-order partial derivatives, then
+    \[ \divtext \curltext\vec F = 0\]
+\end{theorem}
+\begin{proof}
+    Compute.
+    \begin{align*}
+        \div(\curl \vec F) &= \div \curlmatrix{P}{Q}{R} \\
+        &= \div \< \pdv{R}{y} - \pdv{Q}{z}, \pdv{P}{z} - \pdv{R}{x}, \pdv{Q}{x} - \pdv{P}{y}\> \\
+        &= \pdv{x}\pqty{\pdv{R}{y} - \pdv{Q}{z}} + \pdv{y}\pqty{\pdv{P}{z} - \pdv{R}{x}} + \pdv{z}\pqty{\pdv{Q}{x} - \pdv{P}{y}} \\
+        &= \pdvv{R}{x}{y} - \pdvv{Q}{x}{z} + \pdvv{P}{y}{z} - \pdvv{R}{y}{x} + \pdvv{Q}{x}{z} - \pdvv{P}{y}{z} = 0
+    \end{align*}
+\end{proof}
+\begin{example}
+    Show that $\vec F = \<xz, xyz, -y^2\>$ cannot be written as the curl of another vector field.\par
+    \bf{Solution:} If there is some $\vec F_2$ such that $\vec F = \curl\vec F_2$, then we must have $\div \vec F = 0$ by Theorem \ref{divcurl}. \par
+    We previously computed $\div \vec F = z + xz$, which is not zero. Therefore, $\vec F$ is not the curl of another vector field.
+\end{example}
+Similar to curl, the name for divergence can be understood in the context of a velocity field. If $\vec F(x,y,z)$ denotes the velocity of a fluid at $(x,y,z)$, then $\divtext F(x,y,z)$ represents the net rate of change of mass of fluid flowing from the point $(x,y,z)$ per unit volume. That is, a higher divergence means that fluid will ``flee" the point $(x,y,z)$ faster. \par
+If $\div\vec F = 0$, then $\vec F$ is said to be \textbf{incompressible} or \textbf{solenoidal}. These types of fields have many applications in physics, particularly in magnetism, because all magnetic fields are incompressible. \par
+Another useful differential operator occurs when we compute the divergence of a gradient vector field $\bnabla f$. If $f$ is a function of three variables, we have
+\[ \div \bnabla f = \pdv[2]{f}{x} + \pdv[2]{f}{y} + \pdv[2]{f}{z}\]
+This expression is quite common, so we abbreviate it as $\div\bnabla f = \bnabla^2f$. The operator itself becomes
+\[ \bnabla \cdot \bnabla = \<\pdv{}{x}, \pdv{}{y}, \pdv{}{z}\> \cdot \<\pdv{}{x}, \pdv{}{y}, \pdv{}{z}\> = \pdv[2]{x} + \pdv[2]{y} + \pdv[2]{z}\]$\bnabla^2$ is called the \textbf{Laplace operator}, due to its relation to \textbf{Laplace's equation}: $\bnabla^2f = 0$. \par
+We can also apply the Laplace operator to a vector field $\vec F = \<P,Q,R\>$ and obtain
+\[ \bnabla^2\vec F = \< \bnabla^2P, \bnabla^2Q, \bnabla^2R\>\]
+\subsubsection{Vector Forms of Green's Theorem}
+Armed with our new knowledge of divergence and curl, we can revisit Green's Theorem and make a few new notes. \par
+First, consider a vector field $\vec F = \<P, Q\>$. We previously stated that
+\[ \oint_C \vec F \cdot \dd \vec r = \iint\limits_D \bqty{\pdv{Q}{x}-\pdv{P}{y}}\dd A\]
+However, now we can notice that $\pdv{Q}{x} - \pdv{P}{y}$ can be rewritten. 
+\begin{align*}
+    \curl \vec F = \curlmatrix{P}{Q}{0} = \bqty{\pdv{Q}{x} - \pdv{P}{y}}\khat
+\end{align*}
+Therefore, $\pdv{Q}{x}-\pdv{P}{y} = (\curl \vec F)\cdot \khat$, and Green's Theorem can be rewritten as 
+\[ \oint_C\vec F \cdot \dd \vec r = \iint\limits_D (\curl \vec F)\cdot \khat \dd A\]
+Moreover, if the curve $C$ is given by the vector equation 
+\[ \vec r(t) = \< x(t), y(t)\>, \quad t\in[a,b]\]
+Then we can write the unit tangent vector $\vec T(t)$ as
+\[ \vec T(t) = \frac{\vec r'(t)}{\norm{\vec r'(t)}} = \< \frac{x'(t)}{\norm{\vec r'(t)}}, \frac{y'(t)}{\norm{\vec r'(t)}}\> \]
+We can then recall that the outward unit normal vector is given by 
+\[ \vec n(t) = \< \frac{y'(t)}{\norm{\vec r'(t)}}, \frac{-x'(t)}{\norm{\vec r'(t)}}\>\]
+Therefore, we can write
+\begin{align*}
+    \oint_C \vec F \cdot \vec n \dd s &= \int_a^b (\vec F \cdot \vec n)(t)\norm{\vec r'(t)}\dd t \\
+    &= \int_a^b \bqty{\frac{Py'(t)}{\norm {\vec r'(t)}} -\frac{Qx'(t)}{\norm{\vec r'(t)}}}\norm{\vec r'(t)}\dd t \\
+    &= \int_a^b [Py'(t) - Qx'(t)]\dd t \\
+    &= \oint_C (-Q)\dd x + P\dd y = \iint\limits_D \bqty{\pdv{P}{x}+\pdv{Q}{y}}\dd A
+\end{align*}
+However, the integrand of this final double integral is simply just the divergence of $\vec F$. So we have a second version of Green's Theorem:
+\[ \oint_C \vec F \cdot \vec n \dd s = \iint\limits_D \div \vec F \dd A\]
+This version states that the line integral of the normal component of $\vec F$ (as opposed to the tangential component with the curl form of Green's Theorem) across $C$ is equal to the double integral of the divergence of $\vec F$ over the region enclosed by $C$.
+\begin{example}
+    Use Green's Theorem to prove Green's first identity:
+    \[ \iint\limits_D f\bnabla^2g\dd A = \oint_C f[\bnabla g\cdot \vec n]\dd \vec s - \iint\limits_D \bnabla f \cdot \bnabla g\dd A\]\par
+    \bf{Solution:} First, we should digest the problem a bit. If we want any chance of showing this, we should hope to get something of the form
+    \[ \oint_C \vec F \cdot \vec n \dd s = \iint\limits_D \div \vec F \dd A \]
+    We can try and write the terms under the line integral in the form $\vec F \cdot \vec n \dd s$. We can set $\vec F = f\bnabla g$ to achieve this. Now, we can notice that
+    \begin{align*}
+        \div \vec F = \div f\nabla g &= \pdv{x}\pqty{f\pdv{g}{x}}+\pdv{y}\pqty{f\pdv{g}{y}}+\pdv{z}\pqty{f\pdv{g}{z}} \\
+        &= \pdv{f}{x}\pdv{g}{x} + f\pdv[2]{g}{x} + \pdv{f}{y}\pdv{g}{y} + f\pdv[2]{g}{y} + \pdv{f}{z}\pdv{g}{z}+f\pdv[2]{g}{z} \\
+        &= \bnabla f \cdot \bnabla g + f\bnabla^2 g
+    \end{align*}
+    So we can replace the $f\bnabla^2g$ in the left surface integral with $\div \vec F - \grad f\cdot \bnabla g$. Therefore, our original expression becomes
+    \[ \iint\limits_D [\div\vec F - \grad f \cdot \grad g]\dd A= \oint_C \vec F \cdot \vec n \dd s - \iint\limits_D \grad f \cdot \grad g \dd A\]
+    Adding $\iint\limits_D \grad f\cdot \grad g\dd A$ to both sides, they cancel out and we get back to the original expression of Green's Theorem
+    \[ \iint\limits_D \div \vec F \dd A = \oint_C \vec F \cdot \vec n \dd s \]
+    Thus proving the identity.
+\end{example}
+\begin{example}
+    Use the result from the previous example to prove Green's second identity:
+    \[ \iint\limits_D (f\lap g - g\lap f)\dd A = \oint_C (f\grad g - g\grad f)\cdot \vec n \dd s\]
+    \bf{Solution:} We'll first split the line integral, giving us
+    \[ \oint_C (f\grad g - g\grad f)\cdot \vec n \dd s = \oint_C f\grad g \cdot \vec n \dd s - \oint_C g\grad f\cdot \vec n \dd s\]
+    Then, we can compute $\div (g\grad f)$ and find
+    \begin{align*}
+        \div (g\grad f) &= \pdv{x}\pqty{g\pdv{f}{x}}+\pdv{y}\pqty{g\pdv{f}{y}}+\pdv{z}\pqty{g\pdv{f}{z}} \\
+        &=\pdv{g}{x}\pdv{f}{x} + g\pdv[2]{f}{x} + \pdv{g}{y}\pdv{f}{y}+g\pdv[2]{f}{y}+\pdv{g}{z}\pdv{f}{z}+g\pdv[2]{f}{z} \\
+        &= \grad f \cdot \grad g + g\lap f
+    \end{align*}
+    This allows us to write
+    \[ \oint_C g\grad f \cdot \vec n \dd s = \iint\limits_D (\grad f\cdot \grad g + g\lap f)\dd A\]
+    which can be substituted back into our original statement to find
+    \[ \iint\limits_Df\lap g\dd A - \iint\limits_D g\lap f\dd A = \oint_C f\grad g\cdot \vec n \dd s - \iint\limits_D \grad f\cdot \grad g \dd A - \iint\limits_D g\lap f\dd A\]
+    The $-\iint\limits_D g\lap f\dd A$ terms on each side cancel, leaving us with
+    \[ \iint\limits_D f\lap g \dd A = \oint_C f\grad g\cdot n \dd s - \iint\limits_D \grad f\cdot \grad g\dd A\]
+    which is precisely the statement of Green's first identity, thus proving the identity.
+\end{example}
+\subsection{Parametric Surfaces and Their Areas}
+In Calculus II we learned how to find the area of a surface of revolution, and earlier and Calculus III we learned how to find the area of a surface with the equation $z=f(x,y)$. Now, we will discuss surfaces described with parametric equations. 
+\subsubsection{Parametric Surfaces}
+Similar to how we etched out space curves with a function $\vec r(t)$ of a single variable, we can etch out surfaces in space with a vector function $\vec r(u,v)$ of two variables. If 
+\[ \vec r(u,v) = \< x(u,v), y(u,v), z(u,v)\>\]
+is a vector-valued function defined on a region $D$ of the $uv$ plane, then we call the set of all points $(x,y,z)$ such that $x=x(u,v)$, $y=y(u,v)$, and $z=z(u,v)$ the \textbf{parametric surface} described by $\vec r$.
+\begin{example}
+    Identify and sketch the surface with vector equation
+    \[ \vec r(u,v) = \< 2\cos u, v, 2\sin u\> \]
+    \bf{Solution: }We'll notice that the $y$ component is free to vary as much as it pleases, but the $x$ and $z$ components are restricted to the circle of radius $2$ inscribed in the $xz$ plane. This describes a cylinder of radius $2$ pointing in the $y$ direction.
+\end{example}
+We could have modified the shape formed in the previous example by placing restrictions on the values of $u$ and $v$. For instance, if $u$ was only allowed to vary between $0$ and $\pi$, we would just get the upper half of the cylinder, and if $v$ was only allowed to vary between $-1$ and $5$, the cylinder would be $6$ units long with endpoints at $y=-1$ and $y=5$. \par
+If a parametric surface $S$ is given by $\vec r(u,v)$, then there are two useful families of curves that can help us classify $S$, one with $u$ constant and the other with $v$ constant. This turns our function of two variables into a function of one variable, effectively describing a space curve similar to the ones in the line integrals section. These curves are known as \textbf{grid curves}. \par 
+We use these in a similar manner to how we utilized traces when plotting the graphs of $z=f(x,y)$ functions by holding either $x$ or $y$ constant.
+\begin{example}
+    Find a vector function to represent the plane that passes through the point $P_0$ with position vector $\vec r_0$ and contains two nonparallel vector $\vec a$ and $\vec b$. \par
+    \bf{Solution:} From linear algebra, we can remember that every point on the plane formed by $\vec a$ and $\vec b$  that passes through the origin can be represented as a linear combination of $\vec a$ and $\vec b$--that is, the plane can be written as 
+    \[ u\vec a + v\vec b\]
+    If we want to offset the plane so that it contains $\vec r_0$, we simply add it:
+    \[ \vec r(u,v) = \vec r_0 + u\vec a + v\vec b \]
+    Where $u,v\in\RR$.
+\end{example}
+\begin{example}
+    Find a parametric representation of the sphere
+    \[ x^2+y^2+z^2=a^2\]
+    \bf{Solution:} Recall that a sphere in spherical coordinates is given by $\{(\rho, \phi, \theta): \rho = a, \phi\in[0, \pi], \theta\in[0, 2\pi]\}$. We can translate this into a parametric equation quite easily using our existing knowledge of the spherical coordinate system:
+    \[ \vec r(\phi, \theta) = \< a\cos\theta\sin \phi , a\sin \theta\sin\phi, a\cos\phi\>, \qquad \phi\in[0,\pi], \quad \theta\in[0,2\pi]\]
+\end{example}
+\begin{example}
+    Find a parametric representation of the cylinder
+    \[ x^2+y^2 = a^2, \quad z\in[0, 1]\]
+    This is also quite simple. In cylindrical, we have $\{(r,\theta, z): r=a, \theta\in[0,2\pi], z\in[0,1]\}$. So our parametric surface is given by
+    \[ \vec r(\theta, z) = \<a\cos\theta, a\sin\theta, z\>, \qquad \theta\in[0,2\pi], \quad z\in[0,1]\]
+\end{example}
+\begin{example}
+    Find a vector function that represents the elliptic paraboloid $z=x^2+2y^2$.\par
+    \bf{Solution:} We can simply let $x$ be one paramater and $y$ be another parameter, and we get
+    \[ \vec r(x,y) = \<x, y, x^2+2y^2\>\]
+\end{example}
+\begin{example}
+    Find a parametric representation for the surface $z=2\sqrt{x^2+y^2}$--that is, the top half of the cone $z^2=4x^2+4y^2$. \par
+    \bf{Solution:} We could keep this in rectangular or move it to cylindrical. In rectangular, you would get
+    \[ \vec r(x,y) = \<x,y, 2\sqrt{x^2+y^2}\>\]
+    and in cylindrical, you would get
+    \[ \vec r(r, \theta) = \< r\cos \theta, r\sin \theta, 2r\>, \qquad r\geq 0,\quad \theta\in[0,2\pi] \]
+\end{example}
+\subsubsection{Surfaces of Revolution}
+Surfaces of revolution can be represented parametrically and thus graphed with a computer. Consider revolving the surface $y=f(x)$ around the $x$ axis with $x\in[a,b]$. We could represent this surface parametrically as 
+\[ \vec r(x, \theta) = \<x, f(x)\cos\theta, f(x)\sin\theta\>, \qquad x\in[a,b],\quad \theta\in[0,2\pi]\]
+\begin{example}
+    Obtain parametric equations for rotating the graph of $y=\sin x$ about the $x$ axis with $x$ ranging from $a$ to $b$. \par
+    \bf{Solution:} Use the previously mentioned formula.
+    \[ \vec r(x,\theta) = \<x, \sin x\cos\theta, \sin x\sin \theta\>,\qquad x\in[a,b],\quad \theta\in[0,2\pi]\]
+\end{example}
+\subsubsection{Tangent Planes}
+We can also represent tangent planes as parametric surfaces. Consider a surface $S$ traced out by the parametric function 
+\[ \vec r(u,v) = \< x(u,v), y(u,v), z(u,v)\>\]
+The tangent plane to $S$ at a point $P_0$ with a position vector $\vec r(u_0, v_0)$ can be found. If we keep $u$ constant at $u=u_0$ and allow $v$ to vary, we get a grid curve that lies on $S$. The tangent vector to this grid curve is obtained by taking the partial derivative of $\vec r$ with respect to $v$.
+\[ \vec T_v = \< \pdv{x}{v}(u_0, v_0), \pdv{y}{v}(u_0, v_0), \pdv{z}{v}(u_0,v_0) \> \]
+Similarly, we can obtain the tangent vector to the grid curve obtained by setting $v=v_0$ by taking the partials with respect to $u$:
+\[ \vec T_u = \< \pdv{x}{u}(u_0, v_0), \pdv{y}{u}(u_0, v_0), \pdv{z}{u}(u_0,v_0) \> \]
+If $\vec T_v \times \vec T_u \neq \vec 0$ (that is, if the tangent vectors are not parallel), then the surface is called \textbf{smooth}. For a smooth surface, the tangent plane is the plane that contains $P_0$, as well as the vectors $\vec T_v$ and $\vec T_u$ and has a normal vector given by $\vec T_v \times \vec T_u$.
+\begin{example}
+    Find the tangent plane to the surface with parametric equations
+    \[ \vec r(t) = \<u^2, v^2, u+2v\> \]
+    at the point $(1,1,3)$.\par
+    \bf{Solution:} First, we will notice that when $\<x,y,z\> = \<1,1,3\>$, we must have $u = 1$ and $v = 1$. Then, we can compute the tangent vectors to the surface.
+    \begin{align*}
+        \vec T_v &= \< \pdv{v}(u^2)(1,1), \pdv{v}(v^2)(1,1), \pdv{v}(u+2v)(1,1)\> = \<0, 2, 2\> \\
+        \vec T_u &= \< \pdv{u}(u^2)(1,1), \pdv{u}(v^2)(1,1), \pdv{u}(u+2v)(1,1)\> = \< 2, 0, 1\>
+    \end{align*}
+    So a normal vector to the tangent plane is
+    \begin{align*}
+        \vec T_v\times \vec T_u &= \crossprod{0}{2}{2}{2}{0}{1} = \< 2, 4, -4\>
+    \end{align*}
+    and then the equation of the tangent plane is given by $\vec n \cdot (\vec r-\vec r_0)=0$, or
+    \[ 2(x-1) + 4(y-1) - 4(z-3) = 0\]
+\end{example}
+\subsubsection{Surface Area}
+Now we can define the surface area of a general parametric surface $S$ given by 
+\[ \vec r(u,v) =  \<x(u,v), y(u,v), z(u,v)\> \]
+For simplicity, let's consider a surface where the domain is a rectangle in the $uv$ plane, which we can divide into many subrectangles $R_{ij}$. For each subrectangle, we can choose a sample point $(u_{i}^*, v_{j}^*)$ to be at the \textit{bottom left corner} of $R_{ij}$. The part $S_{ij}$ of the surface formed by $R_{ij}$ is known as a \textbf{patch} of $S$ and has a point on it given by $\vec r(u_{i}^*, v_{j}^*)$. \par
+We can also find that the tangent vectors to the sample point of $P_{ij}$ are
+\[ \vec r_{u,i}^* = \pdv{\vec r}{u}\,(u_{i}^*, v_{j}^*) \quad \text{and} \quad \vec r_{v,j}^* = \pdv{\vec r}{v}\,(u_{i}^*, v_{j}^*)\]
+We can construct a parallelogram with each of these tangent vectors to find the area of the subrectangle. We can approximate the area with
+\[ A_{ij} \approx \norm{(\Delta u \vec r_{u,i}^*)\times(\Delta v\vec r_{v,j}^*)} = \norm{\vec r_{u,i}^* \times\vec r_{v,j}^*}\Delta u\Delta v\]
+As $\Delta u$ and $\Delta v$ get smaller, this becomes a more accurate approximation. So we can take a limit and sum up all of the areas of each subrectangle and we will get an integral expression:
+\[ A = \lim_{(m,n)\to\infty}\sum_{i=1}^n\sum_{j=1}^m \norm{\vec r_{u,i}^*\times\vec r_{v,j}^*}\Delta u\Delta v = \iint\limits_D \norm{\vec r_u \times \vec r_v}\dd A\]
+This is how we find the surface area of a parametric surface. 
+\begin{example}
+    Find the surface area of a sphere of radius $a$ using parametric surfaces.\par
+    \bf{Solution:} We can represent the sphere using
+    \[ \vec r(\phi, \theta) = \< a\cos\theta\sin\phi, a\sin\theta\sin\phi, a\cos\phi\>, \quad \phi\in[0,\pi], \quad \theta\in[0,2\pi]\]
+    Then, we can take the partials to get 
+    \[ \vec r_\phi = \< a\cos\theta\cos\phi, a\sin\theta\cos\phi, -a\sin\phi \> \]
+    and
+    \[ \vec r_\theta = \< -a\sin\theta\sin\phi, a\cos\theta\sin\phi, 0\>\]
+    Then we can compute $\vec r_\phi \times \vec r_\theta$:
+    \begin{align*}
+        \vec r_\phi \times \vec r_\theta &= \crossprod{a\cos\theta\cos\phi}{a\sin\theta\cos\phi}{-a\sin\phi}{-a\sin\theta\sin\phi}{a\cos\theta\sin\phi}{0} \\
+        &= \< a^2\cos\theta\sin^2\phi, a^2\sin\theta\sin^2\phi, a^2\cos^2\theta\sin\phi\cos\phi + a^2\sin^2\theta\sin\phi\cos\phi\> \\
+        &= \< a^2\cos\theta\sin^2\phi, a^2\sin\theta\sin^2\phi, a^2\sin\phi\cos\phi(\sin^2\theta + \cos^2\theta)\> \\
+        &= \< a^2\cos\theta\sin^2\phi, a^2\sin\theta\sin^2\phi, a^2\sin\phi\cos\phi\>
+    \end{align*}
+    Now, computing the magnitude of this:
+    \begin{align*}
+        \norm{\vec r_\phi \times \vec r_\theta} &= \sqrt{a^4\cos^2\theta\sin^4\phi + a^4\sin^2\theta\sin^4\phi + a^4\sin^2\phi\cos^2\phi} \\
+        &= a^2\sin\phi\sqrt{\sin^2\phi(\cos^2\theta+\sin^2\theta)+\cos^2\phi} \\
+        &= a^2\sin\phi\sqrt{\sin^2\phi+\cos^2\phi} = a^2\sin\phi
+    \end{align*}
+    Now, we can simply compute the surface area. Take special note that we are \textit{not} performing any kind of coordinate transformation (in fact, we are integrating over what is essentially a rectangle in the $\phi\theta$ plane), so we do not need to place in the Jacobian.
+    \begin{align*}
+        A = \iint\limits_D \norm{\vec r_\phi\times\vec r_\theta}\dd A &= \int_0^{2\pi} \int_0^\pi a^2\sin\phi \dd \phi \dd \theta = 4\pi a^2
+    \end{align*}
+\end{example}
+\subsubsection{Surface Area of the Graph of a Function}
+For the special case of a surface $S$ given by an equation $z=f(x,y)$ where $(x,y)$ lies in $D$ and $f$ has continuous partials, we can define $S$ as a parametric surface given by
+\[ \vec r(x,y) = \<x, y, f(x,y)\> \quad (x,y)\in D\]
+and find its surface area in that way. \par
+Going about the normal process, we can take the partials to obtain
+\[ \vec r_x = \<1, 0, f_x(x,y)\> \quad \text{and} \quad \vec r_y = \<0, 1, f_y(x,y)\>\]
+Then,
+\begin{align*}
+    \vec r_x \times \vec r_y &= \crossprod{1}{0}{f_x(x,y)}{0}{1}{f_y(x,y)} \\
+    &= \< -f_x(x,y), -f_y(x,y), 1\>
+\end{align*}
+And
+\begin{align*}
+    \norm{\vec r_x\times\vec r_y} &= \sqrt{[f_x(x,y)]^2+[f_y(x,y)]^2+1}
+\end{align*}
+Giving us the definition of surface area as
+\[ A = \iint\limits_D \sqrt{1 + \bqty{\pdv{z}{x}}^2+\bqty{\pdv{z}{y}}^2}\, \dd A\]
+Which is identical to the one we found earlier, in the multiple integrals section. \par
+We can also compare this equation to the surface area of a solid of revolution that we learned in single-variable calculus. Recall that the surface area of revolving a function $y = f(x)$ about the $x$ axis from $x=a$ to $x=b$ was given by 
+\[ 2\pi \int_a^b f(x)\sqrt{1+[f'(x)]^2}\dd x\]
+Now, we can show this using parametric surfaces. We can define our surface $S$ with 
+\[ \vec r(x, \theta) = \< x, f(x)\cos\theta, f(x)\sin\theta \> \quad x\in[a,b]\quad \theta\in[0,2\pi]\]
+Then, our tangent vectors are
+\[ \vec r_x = \< 1, f'(x)\cos\theta, f'(x)\sin\theta\> \quad\text{and}\quad \vec r_\theta = \<0, -f(x)\sin\theta, f(x)\cos\theta\>\]
+We can compute the cross product $\vec r_x \times \vec r_\theta$:
+\begin{align*}
+    \vec r_x\times\vec r_\theta &= \crossprod{1}{f'(x)\cos\theta}{f'(x)\sin\theta}{0}{-f(x)\sin\theta}{f(x)\cos\theta} \\
+    &= \< f(x)f'(x)\cos^2\theta + f'(x)f(x)\sin^2\theta, -f(x)\cos\theta, -f(x)\sin\theta\> \\
+    &= \< f(x)f'(x),-f(x)\cos\theta, -f(x)\sin\theta\> \\
+    \norm{\vec r_x\times\vec r_\theta} &= \sqrt{[f(x)]^2[f'(x)]^2 + [f(x)]^2\cos^2\theta + [f(x)]^2\sin^2\theta} \\
+    &= f(x)\sqrt{[f'(x)]^2 + \cos^2\theta + \sin^2\theta} \\
+    &= f(x)\sqrt{[f'(x)]^2+1}
+\end{align*}
+Then integrating, we obtain
+\begin{align*}
+    A = \iint\limits_D \norm{\vec r_x\times\vec r_\theta}\dd A &= \int_0^{2\pi}\int_a^b f(x)\sqrt{[f'(x)]^2+1}\,\dd x\dd \theta \\
+    &= 2\pi \int_a^b f(x)\sqrt{[f'(x)]^2+1}\,\dd x
+\end{align*}
+Which is precisely equal to the Calculus I formula.
+\subsection{Surface Integrals}
+The relationship between surface integrals and surface area is similar to the relationship between arclength and line integrals. Suppose $f$ is a function of three variables whose domain includes a surface $S$. We divide $S$ into patches $S_{ij}$ of area $\Delta S_{ij}$. We evaluate $f$ at a sample point $P^*_{ij}$ in each patch, multiply by the area, and form the sum
+\[ \sum_{i=1}^n\sum_{j=1}^m f(P_{ij}^*)\Delta S_{ij}\]
+If we take the limit of this, we get the definition of a surface integral:
+\[ \iint\limits_S f(x,y,z)\dd S = \lim_{(m,n)\to\infty} \sum_{i=1}^n\sum_{j=1}^m f(P_{ij}^*)\Delta S_{ij}\]
+To evaluate this, we approximate the patch area $\Delta S_{ij}$ by the area $\Delta T_{ij}$ of the approximating parallelogram in the tangent plane. Then, this limit becomes a double integral. After this, the following steps will vary depending on if we are observing a graph or a parametric surface. \par
+First, if we are observing a graph, then we have an equation of the form $z=g(x,y)$ with $(x,y)\in D$. The tangent plane to this surface is the plane that passes through $P^*_{ij}$ and has normal vector $\vec g_x(P_{ij}^*)\times \vec g_y(P_{ij}^*)$. We will follow the same steps as the previous section to obtain 
+\[ \Delta S_{ij} \approx \sqrt{\left[g_x(P_{ij}^*)\right]^2 + \left[g_y(P_{ij}^*)\right]^2+1}\]
+Thus giving us
+\[ \iint\limits_S f(x,y,z)\dd S = \iint\limits_D f(x,y,g(x,y))\sqrt{[g_x(x,y)]^2+[g_y(x,y)]^2+1}\,\dd A\]
+
+If, instead, we are observing a parametric surface, we will have some equation of the form $\vec r(u,v) = \<x(u,v), y(u,v), z(u,v)\>$ where $(u,v)\in D$. We will make the same approximation of surface area as we did in the previous section:
+\[ \Delta S_{ij} \approx \norm{\vec r_u \times \vec r_v}\]
+giving us an integral of
+\[ \iint\limits_S f(x,y,z)\dd S = \iint\limits_D f(\vec r(u,v))\norm{\vec r_u \times \vec r_v}\, \dd A\]
+An easy way to remember this formula is to note the similarities between it and the formula for a scalar line integral: $\int_C f(x,y,z)\dd s = \int_a^b f(\vec r(t))\norm{\vec r'(t)}\dd t$ \par
+Additionally, if a surface integral is done over a \textit{closed} surface $S$, then we can use the notation
+\[ \oiint\limits_S f(x,y,z)\dd S\]
+To indicate that $S$ is closed. We can think of closed surfaces as ones that enclose a region $E\subset\RR^3$ in them and have no ``holes" (the mathematical definition is more complicated, so we will not cover it).
+\begin{example}
+    Evaluate $\iint_S y\dd S$ where $S$ is the surface $z=x+y^2$, $x\in[0, 1]$, $y\in[0,2]$.\par
+    \bf{Solution:} Plug in.
+    \begin{align*}
+        \iint\limits_S y\dd S &= \iint\limits_D y\sqrt{2+4y^2}\, \dd A \\
+        &= \sqrt{2} \int_0^1\int_0^2 y\sqrt{2y^2+1}\, \dd y \dd x \\
+        &= \frac{\sqrt{2}}{4}\cdot\frac{2}{3} \cdot \pqty{2y^2+1}^{3/2}\biggr|_0^2 =\frac{13\sqrt{2}}{3}
+    \end{align*}
+\end{example}
+\begin{example}
+    Compute the surface integral $\oiint_S x^2\dd S$ where $S$ is the unit sphere $x^2+y^2+z^2=1$. \par
+    \bf{Solution:} This surface is easiest to represent as the parametric surface described by
+    \[ \vec r(\phi, \theta) = \<\cos\theta\sin\phi, \sin\theta\sin\phi, \cos\phi\>, \quad \phi\in[0, \pi],\quad \theta\in[0,2\pi]\]
+    Then, we can compute the partials:
+    \begin{align*}
+        \vec r_\phi &= \< \cos\theta\cos\phi, \sin\theta\cos\phi, -\sin\phi\> \\
+        \vec r_\theta &= \< -\sin\theta\sin\phi, \cos\theta\sin\phi, 0\>
+    \end{align*}
+    And their cross product:
+    \begin{align*}
+        \vec r_\phi \times \vec r_\theta &= \crossprod{\cos\theta\cos\phi}{\sin\theta\cos\phi}{-\sin\phi}{-\sin\theta\sin\phi}{\cos\theta\sin\phi}{0} \\
+        &= \< \cos\theta\sin^2\phi, \sin\theta\sin^2\phi, \cos^2\theta\sin\phi\cos\phi + \sin^2\theta\cos\phi\sin\phi\> \\
+        &=  \< \cos\theta\sin^2\phi, \sin\theta\sin^2\phi, \cos\phi\sin\phi\> \\
+        \norm{\vec r_\phi \times \vec r_\theta} &= \sqrt{\cos^2\theta\sin^4\phi + \sin^2\theta\sin^4\phi + \cos^2\phi\sin^2\phi} \\
+        &= \sin\phi \sqrt{\sin^2\phi + \cos^2\phi} = \sin\phi
+    \end{align*}
+    And then finally the surface integral:
+    \begin{align*}
+        \oiint\limits_S x^2\dd S &= \int_0^{2\pi}\int_0^\pi [\cos\theta\sin\phi]^2\sin\phi \dd \phi \dd \theta \\
+        &= \bqty{\int_0^{2\pi} \frac{1}{2}(1+\cos(2\theta)\dd \theta}\bqty{\int_0^\pi\sin\phi [\sin^2\phi]\dd \phi } \\
+        &= \pi\int_0^\pi\bqty{ \sin\phi - \sin\phi\cos^2\phi}\dd \phi \\
+        &= \pi (\cos 0 - \cos \pi)\frac{1}{3}(\cos^3\pi - \cos^30) = \frac{4\pi}{3} 
+    \end{align*}
+\end{example}
+In the case where $S$ is piecewise-smooth, that is, a finite union of smooth surfaces $S_1, \dots, S_n$ that intersect only along their boundaries, then the surface integral over $S$ is given by the sum of each of the surface integrals of component surfaces:
+\[ \iint\limits_S f(x,y,z)\dd S = \sum_{i=1}^n \iint\limits_{S_i}f(x,y,z)\dd S\]
+\begin{example}
+    Evaluate $\oiint_S z\dd S$ where $S=S_1\cup S_2\cup S_3$ has components given by:
+    \begin{enumerate}
+        \item $S_1$ is the disk $x^2+y^2\leq 1$ in the $xy$ plane.
+        \item $S_2$ is the part of the plane $z=1+x$ that lies above $S_1$.
+        \item $S_3$ is the cylinder $x^2+y^2=1$ which is bounded below by $S_1$ and above by $S_2$.
+    \end{enumerate}
+    \bf{Solution:} We can write 
+    \[ \oiint\limits_{S} z\dd S =\iint\limits_{S_1} z\dd S+\iint\limits_{S_2} z\dd S+\iint\limits_{S_3} z\dd S \]
+    and then solve each one individually. First, focusing on $S_1$, we can immediately see that it lies in the plane $z=0$. Because the surface integral is solely depending on $z$, then it stands to reason that it will just go to zero. \par
+    Then, focusing on $S_2$, we can its surface integral with the standard formula
+    \begin{align*}
+        \iint\limits_{S_2} \dd S &= \iint\limits_R z(x,y)\norm{z_x^2+z_y^2+1}\dd A \\
+        &= \int_0^{2\pi}\int_0^1 \sqrt{2}(1+r\cos\theta)r\dd r\dd \theta \\
+        &= \sqrt{2}\int_0^{2\pi}\int_0^1 [r+r^2\cos\theta]\dd r\dd \theta \\
+        &= \sqrt{2}\int_0^{2\pi}\bqty{\frac{1}{2} + 0}\dd \theta = \pi\sqrt{2}
+    \end{align*}
+    Now, for $S_3$, we can write it as a parametric surface with $\vec r_1(z, \theta) = \< \cos\theta, \sin\theta, z\>$ with $\theta\in[0, 2\pi]$ and $z\in[0,1+x] = [0, 1+\cos\theta]$. Therefore, we obtain
+    \[ \vec r_{1,z } = \< 0, 0, 1\> \quad \text{and}\quad \vec r_{1,\theta} = \< -\sin\theta, \cos\theta, 0\> \]
+    and then
+    \begin{align*}
+        \vec r_{1,z}\times\vec r_{1,\theta} &= \crossprod{0}{0}{1}{-\sin\theta}{\cos\theta}{0} \\
+        &= \<-\cos\theta, -\sin\theta, 0\> \\
+        \norm{\vec r_{1,z}\times\vec r_{1,\theta}} &= \sqrt{\sin^2\theta + \cos^2\theta} = 1
+    \end{align*}
+    Then, we have
+    \begin{align*}
+        \iint\limits_S z\dd S &= \iint\limits_D z\norm{\vec r_{1,\theta}\times\vec r_{1,z}}\dd A \\
+        &= \int_0^{2\pi}\int_0^{1+\cos\theta}z\dd z\dd \theta \\
+        &= \frac{1}{2}\int_0^{2\pi}(1+\cos\theta)^2\dd \theta \\
+        &= \frac{1}{2}\int_0^{2\pi}[\cos^2\theta + 2\cos\theta + 1]\dd \theta \\
+        &= \frac{1}{2}\bqty{\frac{1}{2}\theta + \frac{1}{4}\sin(2\theta)+ 2\sin\theta + \theta}_0^{2\pi} = \frac{3\pi}{2} \\
+    \end{align*}
+    Now, since we have computed each component, we can simply add them up to obtain the total surface integral:
+    \begin{align*}
+        \oiint\limits_S z\dd S  =\iint\limits_{S_1} z\dd S+\iint\limits_{S_2} z\dd S+\iint\limits_{S_3} z\dd S = 2\sqrt{\pi}+\frac{3\pi}{2}
+    \end{align*}
+\end{example}
+\subsubsection{Applications of Surface Integrals}
+Surface integrals also have applications, similar to the previous types of integrals we have gone over. For instance, if a thin sheet of a substance forms the shape of a surface $S$ and the density of the sheet at $(x,y,z)$ is given by $\rho (x,y,z)$, then the total mass is
+\[ m = \iint\limits_S \rho(x,y,z)\dd S\]
+and the center of mass is $(\overline x, \overline y, \overline z)$ where
+\[ \overline x = \frac{1}{m}\iint\limits_S x\rho \dd S \quad \overline y = \frac{1}{m}\iint\limits_S y\rho \dd S \quad \overline z = \frac{1}{m}\iint\limits_S z\rho\dd S\]
+We can also define moments of inertia in much the same way, although we will omit here because it's nearly identical to the discussion of moments of inertia in the multiple integrals section.
+\subsubsection{Oriented Surfaces}
+In order to define surface integrals of vector fields, we need to get a sense of which way a surface is ``facing." To do so, we need to rule out nonorientable surfaces such as Möbius strips and similar. \par
+From now on, we will only consider orientable (two-sided) surfaces. We will start with a surface $S$ that has a tangent plane at every point $(x,y,z)$ on $S$ except along its edges. Each tangent plane has two unit normal vectors $\vec n_1$ and $\vec n_2$ with $\vec n_2 = -\vec n_1$. We will attempt to choose a unit normal vector $\vec n$ at every point such that it varies smoothly as you go from point to point (i.e. the normal vector stays on the same side of the surface). If this i possible, we call $S$ an \textbf{oriented surface}, and the choice of $\vec n$ provides $S$ with an \textbf{orientation}. Each orientable surface has two possible orientations. \par
+For a surface $z = g(x,y)$ we can quite easily see that one of the normal vectors to the tangent plane is given by
+\[ \vec n = \frac{-g_x(x,y) - g_y(x,y) + 1}{\sqrt{[g_x(x,y)]^2+[g_y(x,y)]^2+1}}\]
+(this comes from defining a parametric surface by $\vec r = \<x,y,g(x,y)\>$ and computing the cross product $\vec r_x \times \vec r_y$). \par
+Because the $z$ component of this is positive, we will call this the \textbf{upward} orientation. \par
+For a more general parametric surface defined by $\vec r(u,v)$, we say that the upward orientation of the normal vector is
+\[ \vec n = \frac{\vec r_u \times \vec r_v}{\norm{\vec r_u\times \vec r_v}}\]
+For example, in the parametric surfaces section, we found the representation for the ball $\rho^2 = a^2$ as a parametric surface to be
+\[ \vec r(\phi, \theta) = \< a\sin\phi\cos\theta, a\sin\phi\sin\theta, a\cos\phi\> \]
+Then, we later in the section found that
+\[ \vec r_\phi\times \vec r_{\theta} = \< a^2\sin^2\phi\cos\theta, a^2\sin^2\phi\sin\theta, a^2\sin\phi\cos\phi \> \]
+and
+\[ \norm{\vec r_\phi \times \vec r_\theta} = a^2\sin\phi \]
+So the positive unit normal vector of this surface is given by
+\[ \vec n = \< \sin\phi\cos\theta, \sin\phi\sin\theta, a^{-1}\cos\phi\>\]
+Observe that because the position vector points in the same direction as the normal vector (since it's a sphere), we have the equivalence
+\[ \vec n = \frac{1}{a}\vec r(\phi, \theta)\]
+For a \textbf{closed surface}, that is, a surface that is the boundary of a solid region $E$, the convention is that the positive orientation is the one where the normal vectors point away from $E$.
+\subsubsection{Surface Integrals of Vector Fields}
+Suppose that $S$ is an oriented surface with unit normal vector $\vec n$, and imagine a fluid with density $\rho(x,y,z)$ and velocity field $\vec v(x,y,z)$ flowing through $S$ (think of $S$ as an imaginary surface that doesn't impede the flow of the fluid). Then, the rate of flow (mass per unit time) at a particular point with position vector $\vec x$ is $\rho(\vec x)\vec v(\vec x)$. The amount of flow that goes in the direction of $\vec n$ can be given by $\rho(\vec x)\vec v(\vec x) \cdot \vec n$. \par Now, if we divide $S$ into many small patches $S_{ij}$, where each $S_{ij}$ is nearly planar, we can approximate the total mass of fluid crossing $S$ per unit time. First, choose a sample point $P_{ij}$ within each $S_{ij}$. Then, we can write
+\[ \Phi_S \approx \sum_{i}\sum_j \Phi_{S_{ij}} =  \sum_i\sum_j (\rho(P_{ij}) \vec v(P_{ij}) \cdot \vec n)A(S_{ij})\]
+where $A(S_{ij})$ is the area of $S_{ij}$. \par
+We can convert this into an integral,
+\[ \Phi_S = \iint\limits_S \rho \vec v \cdot \vec n \dd S = \iint\limits_S \rho(x,y,z)\vec v(x,y,z) \cdot \vec n(x,y,z)\dd S\]
+and this can be interpreted physically as the rate of flow through $S$. \par
+If we write $\vec F = \rho \vec v$, then $\vec F$ is also a vector field on $\RR^3$ and the previous integral becomes
+\[ \iint\limits_S \vec F \cdot \vec n \dd S \]
+A surface integral of this form occurs frequently in physics, and is called the surface integral of $\vec F$ over $S$.
+\begin{definition}
+    If $\vec F$ is a continuous vector field defined on an oriented surface $S$ with unit normal vector $\vec n$, then the surface integral of $\vec F$ over $S$ is
+    \[ \iint\limits_S \vec F \cdot \dd \vec S = \iint\limits_S \vec F \cdot \vec n \dd S\]
+    This integral is also called the \textbf{flux} of $\vec F$ across $S$.
+\end{definition}
+In the case of a surface $S$ given by a graph $z=g(x,y)$, we previously found $\vec n$ by using a parametric surface. Another way we could do it is by noting that $S$ is also the graph of the level surface given by $f(x,y,z) = z - g(x,y) = 0$. The gradient $\grad f(x,y,z)$ is normal to $S$ at $(x,y,z)$, so the unit normal is
+\[ \vec n = \frac{\grad f(x,y,z)}{\norm{\grad f(x,y,z)}} = \frac{\< -g_x(x,y), -g_y(x,y), 1\>}{\sqrt{[g_x(x,y)]^2+[g_y(x,y)]^2+1}}\]
+This is, the upward unit normal because the $z$ component is positive. \par
+If we now plug this into the formula for the surface integral with $\vec F = \<P,Q,R\>$, we obtain
+\begin{align*}
+    \iint\limits_S \vec F \cdot \dd \vec S &= \iint\limits_S \vec F \cdot \vec n \dd S \\
+    &= \iint\limits_D \<P, Q, R\> \cdot \frac{\< -g_x(x,y), -g_y(x,y), 1\>}{\sqrt{[g_x(x,y)]^2+[g_y(x,y)]^2+1}} \sqrt{[g_x(x,y)]^2+[g_y(x,y)]^2+1}\, \dd A \\
+    &= \iint\limits_D \bqty{-P\pdv{g}{x} - Q\pdv{g}{y} + R}\dd A
+\end{align*}
+Similar formulas can be found if we instead have $y = h(x,z)$ or $z=k(x,y)$.
+\begin{example}
+    Evaluate $\iint_S \vec F \cdot \dd \vec S$ where $\vec F = \<y, x, z\>$ and $S$ is the boundary of the solid region $E$ enclosed by the paraboloid $z=1-x^2-y^2$ and the plane $z=0$. \par
+    \bf{Solution:} $S$ is the union of two parts--the paraboloid part $S_1$ and the part on the plane $z=0$. We will focus first on $S_1$. \par 
+    $S_1$ is easiest to describe in cylindrical coordinates, where we find that it is modeled by the equation $z = 1-r^2$, with $\theta\in[0,2\pi]$ and $r\in[0, 1]$. \par
+    Therefore, we can solve the surface integral:
+    \begin{align*}
+        \iint\limits_{S_1} \vec F \cdot \dd \vec S &= \iint\limits_D \bqty{-P\pdv{g}{x} - Q\pdv{g}{y} + R}\dd A \\
+        &= \iint\limits_D \bqty{2yx + 2xy + z}\dd A \\
+        &= \iint\limits_D \bqty{4xy+1-x^2-y^2}\dd A \\
+        &= \int_0^{2\pi}\int_0^1\bqty{4r^2\cos\theta\sin\theta - r^2 + 1}r\dd r\dd \theta \\
+        &= \int_0^{2\pi} \bqty{\cos\theta\sin\theta + \frac{1}{4}}\dd \theta \\
+        &= \frac{1}{2}\sin^2\theta + \frac{\theta}{4} \biggr|_0^{2\pi} = \frac{\pi}{2}
+    \end{align*}
+    $S_2$ has the same projection $D$ onto the $xy$ plane, but its function is just $z=0$, which gives us
+    \[ \iint\limits_{S_2}\vec F \cdot \dd \vec S = \iint\limits_D \bqty{-0-0+z}\dd A = 0\]
+    Because $z$ is always zero. \par
+    Then the total surface integral over $S$ is just the sum of the integrals over $S_1$ and $S_2$, or
+    \[ \oiint\limits_S \vec F \cdot \dd \vec S = \iint\limits_{S_1}\vec F \cdot \dd \vec S +\iint\limits_{S_2}\vec F \cdot \dd \vec S  = \frac{\pi}{2}\]
+\end{example}
+We can also evaluate surface integrals of vector fields over parametric surfaces. If $S$ is given by a vector function $\vec r(u,v)$ with $(u,v)\in D$, then we have
+\begin{align*}
+    \iint\limits_S \vec F \cdot \dd \vec S &= \iint\limits_S \vec F \cdot \frac{\vec r_u \times \vec r_v}{\norm{\vec r_u \times \vec r_v}}\dd S \\
+    &= \iint\limits_D \vec F \cdot \frac{\vec r_u \times \vec r_v}{\norm{\vec r_u \times \vec r_v}}\norm{\vec r_u \times \vec r_v}\dd A \\
+    &= \iint\limits_D \vec F \cdot (\vec r_u \times \vec r_v)\dd A
+\end{align*}
+If we were to plug in $\vec r(x,y) = \<x,y, g(x,y)\>$ into this equation, we would get the same formula as we previously derived for an integral over a graphed surface.
+\begin{example}
+    Gauss' Law for electrostatics in integral form states that the closed surface integral of the electric field over a region $S$ is equal to the amount of charge enclosed within $S$ divided by the constant $\varepsilon_0$. As an equation, this states
+    \[ \oiint\limits_S \vec E \cdot \dd \vec S = \frac{Q}{\varepsilon_0}\]
+    Evaluate the surface integral to verify Gauss' Law for the case where $S$ is a sphere of radius $a$ centered around the origin, where there is a positive charge of $+Q$ at the origin. \par
+    It will be important to remember that the formula for the electric field given by a point charge at the origin at a point with position vector $\vec r$ is given by \[ \vec E(\vec r) = \frac{1}{4\pi\varepsilon_0}\frac{Q\vec r}{\norm{\vec r}^3}\]
+    \bf{Solution:} We can write the sphere $S$ as a parametric surface given by
+    \[ \vec r(\phi, \theta) = \< a\sin\phi\cos\theta, a\sin\phi\sin\theta, a\cos\phi\>, \qquad \phi\in[0,\pi]\quad \theta\in[0,2\pi]\]
+    We previously found $\vec r_\phi\times \vec r_\theta$ to be the vector \[\vec r_\phi\times \vec r_\theta = \< a^2\sin^2\phi\cos\theta, a^2\sin^2\phi\sin\theta, a^2\sin\phi\cos\phi\>\]
+    Now, we can simply plug in and evaluate the surface integral.
+    \[ \Phi_E = \oiint\limits_S \vec E \cdot \dd \vec S = \frac{Q}{4\pi\varepsilon_0}\oiint\limits_S \frac{\vec r}{\norm{\vec r}^3}\cdot \vec n\dd S\]
+    Note that the magnitude of $\vec r$ is constant at $\norm{\vec r} = a$, due to the nature of spheres.
+    \begin{align*}
+        \Phi_E &= \frac{Q}{4\pi\varepsilon_0}\frac{1}{a^3}\iint\limits_D \<x,y,z\> \cdot \< a^2\sin^2\phi\cos\theta, a^2\sin^2\phi\sin\theta, a^2\sin\phi\cos\phi\> \dd A \\
+        &= \frac{Q}{4\pi\varepsilon_0}\frac{1}{a^3}\iint\limits_D \<a\sin\phi\cos\theta,a\sin\phi\sin\theta,a\cos\phi\> \cdot \< a^2\sin^2\phi\cos\theta, a^2\sin^2\phi\sin\theta, a^2\sin\phi\cos\phi\> \dd A \\
+        &= \frac{Q}{4\pi\varepsilon_0}\frac{1}{a^3}\iint\limits_D \bqty{a^3\sin^3\phi\cos^2\theta + a^3\sin^3\phi\sin^2\theta+a^3\sin\phi\cos^2\phi}\dd A \\
+        &=\frac{Q}{4\pi\varepsilon_0}\frac{a^3}{a^3}\iint\limits_D\bqty{\sin^3\phi(\sin^2\theta+\cos^2\theta)+\sin\phi\cos^2\phi}\dd A \\
+        &= \frac{Q}{4\pi\varepsilon_0}\iint\limits_D [\sin\phi(1-\cos^2\phi) + \sin\phi\cos^2\phi]\dd A \\
+        &= \frac{Q}{4\pi\varepsilon_0}\iint\limits_D \sin\phi \dd A \\
+        &= \frac{Q}{4\pi\varepsilon_0}\int_0^{2\pi}\int_0^{\pi}\sin\phi \dd \phi \dd \theta \\
+        &= \bqty{ \frac{Q}{4\pi\varepsilon_0}}\bqty{2\pi}\bqty{\cos 0 - \cos \pi} = \frac{Q}{\varepsilon_0}
+    \end{align*}
+\end{example}
+Another useful application of surface integrals occurs in the study of heat flow. Suppose the temperature at a point $(x,y,z)$ in a body is $u(x,y,z)$. Then the \textbf{heat flow} is defined as the vector field
+\[ \vec F = -K\grad u\]
+where $K$ is an experimentally determined constant known as the \textbf{conductivity} of the substance. The rate of heat flow across the surface $S$ in the body is then given by the flux of the heat flow.
+\[ R = -K\iint\limits_S\grad u \cdot \dd \vec S \]
+\begin{example}
+    The temperature $u$ in a metal ball is proportional to the square of the distance from the center of the ball. Find the rate of heat flow across a sphere $S$ of radius $a$ centered at the center of the ball. \par
+    \bf{Solution:} First, we can write the temperature as a function of the position:
+    \[ u = C(x^2+y^2+z^2)\]
+    Then, the heat flow is given by
+    \[ -K \grad u = \< -2KCx, 2KCy, 2KCz \> \]
+    Recall that the normal vector to a sphere is given by
+    \[ \vec n = \frac{1}{a} \<x,y,z\>\]
+    so we find
+    \begin{align*}
+        \Phi_T = \oiint\limits_S -K\grad u \cdot \dd \vec S &= \oiint\limits_S -K\grad u \cdot \vec n \dd S \\
+        &= \frac{-2KC}{a}\oiint\limits_S \<x,y,z\> \cdot \< x,y,z\> \dd S \\
+        &= \frac{-2KC}{a}\oiint\limits_S \rho^2\dd S
+    \end{align*}
+    But since $\rho$ is constant at $\rho=a$,
+    \[ \Phi_T = -2KCa\oiint\limits_S \dd S\]
+    Remember that the surface integral of $1$ is just the surface area of $S$. We know the surface area of a circle to be $4\pi a^2$ from geometry, so we have
+    \[ \Phi_T = -8KC\pi a^3\]
+\end{example}
+\subsection{Stokes' Theorem}
+Stokes' Theorem can be thought of as a higher-dimensional equivalent of Green's Theorem. While Green's Theorem relates the line integral over a the boundary of a plane region $\partial D$ to the double integral over the whole region $D$, Stokes' Theorem relates a line integral over a surface $S$ to the surface integral over a surface $S$.
+\begin{theorem}[Stokes' Theorem]
+    Let $S$ be an oriented piecewise-smooth surface in $\RR^3$ that is bounded by a simple, closed, piecewise-smooth boundary curve $\partial S$. Let $\vec F$ be a vector field whose components have continuous partial derivatives on an open region in $\RR^3$ that contains $S$. Then,
+    \[ \oint_{\partial S} \vec F \cdot \dd \vec r = \iint\limits_S (\curl \vec F) \cdot \dd \vec S\]
+\end{theorem}
+Because $\oint_{\partial S} \vec F \cdot \dd \vec r = \oint_{\partial S} \vec F \cdot \vec T \dd s$ and $\iint_S \curl \vec F \cdot \dd \vec S = \iint_S \curl \vec F \cdot \vec n \dd S$, Stokes' Theorem can be understood as saying that the line integral of the component of $\vec F$ tangent to $\partial S$ is equal to the surface integral of the component of $\curl \vec F$ normal to $S$. \par
+Green's Theorem can be thought of as a special case of Stokes' Theorem. In fact, when $S$ is a region in the plane, the unit normal is $\khat$ we find
+\[ \iint_S \curl \vec F \cdot \vec n \dd S = \iint_S (\curl \vec F) \cdot \khat \dd A \]
+which is precisely the vector form of Green's Theorem. \par
+Although it is too difficult for us to prove Stokes' Theorem generally, we can give a proof for the case when $S$ is a graph and $\vec F$, $S$, and $\partial S$ are all well-behaved.
+\begin{proof}[Proof of a Special Case of Stokes' Theorem]
+    Let $S$ be defined by the graph $z = g(x,y)$ with $(x,y)\in D$, where $g$ has continuous second-order partial derivatives. Let $D$ be a simple plane region whose boundary curve $\partial D$ corresponds to $\partial S$ (in other words, $D$ is the ``projection" of $S$ onto the plane). \par
+    Let $\vec F = \<P, Q, R\>$ be a vector field with continuous first partials on $S$. \par
+    Because $S$ is the graph of a function, we can compute $\iint_S \curl \vec F \cdot \dd \vec S$ as so:
+    \begin{align*}
+        \iint\limits_S \curl\vec F \cdot \dd \vec S 
+        &=\iint\limits_D \curl \vec F \cdot \<-\pdv{z}{x}, -\pdv{z}{y}, 1 \>\dd A \\
+        &= \iint\limits_D \bqty{-\pqty{\pdv{R}{y}-\pdv{Q}{z}}\pdv{z}{x}-\pqty{\pdv{P}{z}-\pdv{R}{x}}\pdv{z}{y}+\pqty{\pdv{Q}{x}-\pdv{P}{y}}}\dd A \\
+        &= \iint\limits_D \bqty{\pqty{\pdv{Q}{z}-\pdv{R}{y}}\pdv{z}{x}+\pqty{\pdv{R}{x}-\pdv{P}{z}}\pdv{z}{y}+\pqty{\pdv{Q}{x}-\pdv{P}{y}}}\dd A
+    \end{align*}
+    Now, we can evaluate the line integral $\int_{\partial S}\vec F \cdot \dd \vec r$. We can write a parametric representation of $\partial S$ with
+    \[ \vec r(t) = \<x(t), y(t), g(x(t), y(t))\> \quad t\in[a,b]\]
+    And then compute the line integral
+    \begin{align*}
+        \oint_{\partial S} \vec F \cdot \dd \vec r &= \int_a^b \vec F(\vec r(t)) \cdot \vec r'(t)\dd t \\
+        &= \int_a^b \bqty{P\dv{x}{t} + Q\dv{y}{t} + R\dv{t}[g(x(t),y(t)]}\dd t
+    \end{align*}
+    By the chain rule, we can find that $\dv{t}[g(x(t),y(t))] = \pdv{g}{x}\dv{x}{t} + \pdv{g}{y}\dv{y}{t}$,
+    which we can substitute into our previous expression to find
+    \begin{align*}
+        \oint_{\partial S} \vec F \cdot \dd \vec r &= \int_a^b \bqty{P\dv{x}{t} + Q\dv{y}{t} + R\pdv{g}{x}\dv{x}{t} + R\pdv{g}{y}\dv{y}{t}}\dd t \\
+        &= \int_a^b \bqty{\pqty{P + R\pdv{g}{x}}\dv{x}{t} + \pqty{Q+R\pdv{g}{y}}\dv{y}{t}}\dd t \\
+        &= \int_{\partial D} \pqty{P + R\pdv{g}{x}}\dd x + \pqty{Q + R\pdv{g}{y}}\dd y
+    \end{align*}
+    Using Green's Theorem, we can rewrite this as
+    \begin{align*}
+        \oint_{\partial S}\vec F \cdot \dd \vec r
+        &= \iint\limits_D \bqty{\pdv{x}\pqty{Q+R\pdv{g}{y}}-\pdv{y}\pqty{P+R\pdv{g}{t}}}\dd A \\
+        &= \iint\limits_D \biggr[\pdv{x}[Q(x,y,g(x,y)] + \pdv{x}[R(x,y,g(x,y)]\pdv{g}{y} + R\pdvv{g}{x}{y} - \pdv{y}[P(x,y,g(x,y)] - \\&\qquad\qquad\qquad\pdv{y}[R(x,y,g(x,y)]\pdv{g}{x}-R\pdvv{g}{x}{y}\biggr]\dd A
+    \end{align*}
+    By the chain rule, we can say that $\pdv{x}Q(x,y,g(x,y)) = \pdv{Q}{x} + \pdv{Q}{g}\pdv{g}{x}$ (and similar for the other derivatives), which then gives us
+    \begin{align*}
+        \oint_{\partial S}\vec F \cdot \dd \vec r &= \iint\limits_D \biggr[\pqty{\pdv{Q}{x}+\pdv{Q}{g}\pdv{g}{x}} + \pqty{\pdv{R}{x}\pdv{g}{y} +\pdv{R}{g}\pdv{g}{x}\pdv{g}{y}} + \pqty{-\pdv{P}{y} - \pdv{P}{g}\pdv{g}{y}} + \pqty{ - \pdv{R}{y}\pdv{g}{x} - \pdv{R}{g}\pdv{g}{x}\pdv{g}{y}}\biggr]\dd A \\
+        &= \iint\limits_D \bqty{\pqty{\pdv{Q}{g}-\pdv{R}{y}}\pdv{g}{x}+\pqty{\pdv{R}{x}-\pdv{P}{g}}\pdv{g}{y}+\pqty{\pdv{Q}{x}-\pdv{P}{y}}}\dd A
+    \end{align*}
+    Recalling that $z=g(x,y)$, this can also be written as
+    \[ \oint_{\partial S} \vec F \cdot \dd \vec r = \iint\limits_D \bqty{\pqty{\pdv{Q}{z}-\pdv{R}{y}}\pdv{z}{x}+\pqty{\pdv{R}{x}-\pdv{P}{z}}\pdv{z}{y}+\pqty{\pdv{Q}{x}-\pdv{P}{y}}}\dd A \]
+    Which is precisely equal to $\iint\limits_S \curl \vec F \cdot \dd \vec S$, proving the theorem.
+\end{proof}
+\begin{example}
+    Evaluate $\oint_C \vec F \cdot \dd \vec r$, where $\vec F = \<-y^2, x, z^2\>$ and $C$ is the curve of intersection of the plane $y+z=2$ and the cylinder $x^2+y^2=1$. Orient $C$ so that it faces counterclockwise when viewed from above. \par
+    \bf{Solution:} Although we could evaluate the line integral with the position function $\vec r(t) = \<\cos t, \sin t, 2-\sin t\>$, it will be much easier to compute by using Stokes' Theorem. First, compute $\curl F$.
+    \begin{align*}
+        \curl \vec F &= \crossprod{\pdv{x}}{\pdv{y}}{\pdv{z}}{-y^2}{x}{z^2} \\
+        &= \<0, 0, 1+2y\>
+    \end{align*}
+    Now, $C$ is the boundary of the surface $S$ given by $z=2-y$ that is over the plane disk $x^2+y^2=1$, so 
+    \begin{align*}
+        \iint\limits_S \curl \vec F \cdot \dd \vec S &= \iint\limits_R \<0, 0, 1+2y\> \cdot \<-\pdv{z}{x}, -\pdv{z}{y}, 1\> \dd A \\
+        &= \int_0^{2\pi}\int_0^1 [r+2r^2\sin\theta]\dd r\dd \theta \\
+        &= \int_0^{2\pi} \bqty{\frac{1}{2}+\frac{2}{3}\sin\theta}\dd \theta = \pi
+    \end{align*}
+\end{example}
+\begin{example}
+    Use Stokes' Theorem to compute the integral $\iint_S \curl F \cdot \dd \vec S$, where $\vec F = \<xz, yz, xy\>$ and $S$ is the part of the sphere $x^2+y^2+z^2=4$ that lies inside the cylinder $x^2+y^2=1$ and above the $xy$-plane. \par
+    \bf{Solution:} To find the boundary curve $C$, we need to find the set of all points that satisfy both $x^2+y^2+z^2=4$ and $x^2+y^2=1$. \par 
+    First, subtract the second equation from the first one to obtain $z^2=3$ so $z=\pm \sqrt{3}$. Because we're above the $xy$ plane, we narrow this down to only $z=\sqrt 3$. \par
+    The equations for $x$ and $y$ are easy to see from the boundary of the cylinder, so we get:
+    \[ \vec r(t) = \< \cos t, \sin t, \sqrt 3\>\]
+    So we can rewrite
+    \[ \iint\limits_S \curl \vec F \cdot \dd \vec S = \oint_{\partial S} \vec F \cdot \dd \vec r\]
+    where $\partial S$ is the curve described by $\vec r(t)$ with $t\in[0,2\pi]$. Computing this line integral, we find
+    \begin{align*}
+        \int_0^{2\pi} \vec F(\vec r(t))\cdot \vec r'(t)\dd t &= \int_0^{2\pi}\<\sqrt{3}\cos t, \sqrt{3}\sin t, \sin t\cos t\> \cdot \< -\sin t, \cos t, 0\> \dd t \\
+        &= \int_0^{2\pi}[\sqrt{3}\sin t \cos t - \sqrt{3}\sin t\cos t] \dd t = 0
+    \end{align*}
+\end{example}
+Stokes' Theorem has an interesting implication, similar to independence of path in line integrals. If there are two surfaces $S_1$ and $S_2$ with the same boundary curve $C$, then we have
+\[ \iint\limits_{S_1} \curl \vec F \cdot \dd \vec S = \iint\limits_{S_2}\curl \vec F \cdot \dd \vec S = \int_C \vec F \cdot \dd \vec r\]
+We can now use Stokes' Theorem to give some meaning to the curl vector. Suppose that $C$ is an oriented closed curve and $\vec v(x,y,z)$ represents a velocity field of a fluid. Consider the line integral
+\[ \oint_C \vec v \cdot \dd \vec r = \oint_C \vec v \cdot \vec T \dd s\]
+Where $\vec T$ is the unit tangent vector to $C$. Recall that $\vec v \cdot \vec T$ is the component of $\vec v$ in the direction of $\vec T$ (because $\vec T$ is a unit vector). \par
+When $\vec v$ is pointing in a direction similar to $\vec T$, $\vec v \cdot \vec T$ becomes larger. When $\vec v$ is pointing in a direction almost perpendicular to $\vec T$, $\vec v\cdot \vec T$ becomes closer to zero. When $\vec v$ is pointing close to the opposite direction of $\vec T$, then $\vec v\cdot \vec T$ is large and negative. \par
+Therefore, we can say that $\oint_C \vec v\cdot \vec T \dd s$ is a measure of the tendency of a fluid to move around $C$ and is called the \bf{circulation} of $\vec v$ around $C$. \par
+Let $P_0$ be a point in the domain of $\vec v$ with position vector $\vec p_0$ and $S_a$ be a small disk with radius $a$ centered at $P_0$. Then, we can approximate the value of $(\curl \vec v)(\vec p)$ for any $\vec p\in S_a$ with
+\[ (\curl \vec v)(\vec p) \approx (\curl \vec v)(\vec p_0)\]
+If we define $C_a$ as the boundary circle of $S_a$, we then, by Stokes' Theorem, get
+\begin{align*}
+    \oint_{C_a} \vec v\cdot \dd \vec r &= \iint\limits_{S_a}(\curl \vec v)\cdot \dd \vec S = \iint\limits_{S_a}( \curl \vec v) \cdot \vec n \dd S \\
+    &\approx \iint\limits_{S_a} (\curl \vec v)(\vec p_0) \cdot \vec n(\vec p_0) \dd S = (\curl \vec v)(\vec p_0) \cdot \vec n(\vec p_0)\iint\limits_{S_a}\dd S \\
+    &= \bqty{(\curl \vec v)(\vec p_0) \cdot \vec n(\vec p_0)} \pi a^2
+\end{align*}
+We can rearrange to find
+\[ (\curl \vec v)(\vec p_0)\cdot \vec n(\vec p_0) \approx \frac{1}{\pi a^2} \oint_{C_a}\vec v\cdot \dd \vec r\]
+As the disk gets smaller and $a\to 0$, this approximation gets better. So we then find
+\[ (\curl \vec v)(\vec p_0) \cdot \vec n(\vec p_0) = \lim_{a\to 0}\frac{1}{\pi a^2}\oint_{C_a}\vec v \cdot \dd \vec r\]
+This gives us a relationship between the curl and the circulation of an infinitesimally small bounding disk. It shows that $(\curl \vec v) \cdot \vec n$ is a measure of the rotation effect of the fluid about an axis $\vec n$. The curling effect is greatest when $\vec n$ is parallel to $\curl \vec v$. \par
+We can also use our knowledge of Stokes' Theorem to prove Theorem \ref{curlfzero}, which states that a vector field $\vec F$ is conservative if and only if $\curl \vec F = \vec 0$ across all of $\RR^3$. 
+\begin{proof}[Proof of Theorem \ref{curlfzero}.] Suppose $\vec F: \RR^3\to\RR^3$ is a vector field whose components each have continuous first order partial derivatives across all of $\RR^3$. Let $S$ be an arbitrary closed surface in $\RR^3$ with a closed boundary $\partial S$. \par
+In the forward direction, we must prove that $\vec F$ is conservative if $\curl \vec F = \vec 0$. If $\curl \vec F = \vec 0$, we have, by Stokes' Theorem,
+\[ \oint_{\partial S}\vec F \cdot \dd \vec r = \oiint\limits_S (\curl \vec F) \cdot \dd \vec S = \oiint\limits_S \vec 0 \cdot \dd \vec S = 0\]
+Therefore, $\vec F$ is independent of path (all closed paths $\partial S$ will have a corresponding closed surface $S$, although the proof of this fact is nontrivial) and conservative by Theorem \ref{clsdpth}. \par
+In the reverse direction, we must prove that $\curl \vec F = \vec 0$ if $\vec F$ is conservative. If $\vec F$ is conservative, then $\vec F = \grad f$ for some scalar field $f: \RR^3\to \RR$. Then, by Theorem \ref{curlgrad}, $\curl \vec F = \vec 0$. \par
+Therefore, $\curl \vec F = \vec 0$ holds if $\vec F$ is conservative, proving the theorem.
+\end{proof}
+\subsection{The Divergence Theorem}
+Previously, we wrote Green's Theorem in a vector form as
+\[ \int_{\partial D} \vec F \cdot \vec n \dd s = \iint\limits_D (\div \vec F)\dd A\]
+For a plane region $D$. If we sought to extend this to $\RR^3$, a good guess would be that we would obtain
+\[ \iint_{\partial V}\vec F \cdot \vec n \dd S = \iiint\limits_V (\div \vec F)\dd V\]
+For a solid region $E$. This will actually turn out to be the case. Once again, notice the similarity to the other theorems we've explored in this chapter. It relates the integral of a derivative-like function ($\div \vec F$ in this case) over a region to the original function integrated only across the boundary of the region. \par
+We will state and prove the divergence theorem for regions that are simultaneously what we called type I, II, and III in the triple integrals section. For review, the meanings of each type are below.
+\begin{enumerate}
+    \item Type I: Regions that can be written as $\{(x,y,z)|(x,y)\in D_1, u_1(x,y) \leq z \leq u_2(x,y)\}$.
+    \item Type 2: Regions that can be written as $\{(x,y,z)|(y,z)\in D_2, u_1(y,z) \leq x \leq u_2(y,z)\}$.
+    \item Type 3: Regions that can be written as $\{(x,y,z)|(x,z)\in D_3, u_1(x,z) \leq y \leq u_2(x,z)\}$/
+\end{enumerate}
+Where $D_1, D_2$, and $D_3$ are regions in the $xy$, $yz$, and $xz$ planes respectively. Regions that are all of these types simultaneously are known as \bf{simple solid regions}. \par
+Simple solid regions have a closed boundary, with the convention that the normal vector points outwards.
+\begin{theorem}[The Divergence Theorem]
+    Let $E$ be a simple solid region with a closed boundary $\partial E$. Let $\vec F$ be a vector field whose component functions have continuous partial derivatives on an open region that contains $E$. Then,
+    \[ \oiint\limits_{\partial E} \vec F \cdot \dd \vec S = \iiint\limits_E (\div \vec F)\dd V\]
+\end{theorem}
+\begin{proof}
+    Let $\vec F = \<P, Q, R\>$. Then,
+    \[ (\div \vec F) = \pdv{P}{x} + \pdv{Q}{y} + \pdv{R}{z} \]
+    which gives us
+    \begin{align*}
+        \iiint\limits_E (\div \vec F)\dd V = \iiint\limits_E \pdv{P}{x}\dd V+\iiint\limits_E \pdv{Q}{y}\dd V+\iiint\limits_E \pdv{R}{z}\dd V
+    \end{align*}
+    Now, we can rewrite the surface integral.  
+    \begin{align*}
+        \oiint\limits_{\partial E}\vec F \cdot \dd \vec S &= \oiint\limits_{\partial E}\vec F \cdot \vec n \dd S \\
+        &= \oiint\limits_{\partial E}(P\ihat \cdot \vec n)\dd S+\oiint\limits_{\partial E}(Q\jhat \cdot \vec n)\dd S+\oiint\limits_{\partial E}(R\khat \cdot \vec n)\dd S
+    \end{align*} 
+    This gives us three equalities we must show to prove the theorem:
+    \[ \iiint\limits_E \pdv{P}{x}\dd V = \oiint\limits_{\partial E}(P\ihat \cdot \vec n)\dd S\]
+    \[ \iiint\limits_E \pdv{Q}{y}\dd V = \oiint\limits_{\partial E}(Q\jhat \cdot \vec n)\dd S\]
+    \[ \iiint\limits_E \pdv{R}{z}\dd V = \oiint\limits_{\partial E}(R\khat \cdot \vec n)\dd S\]
+    To show the first equation, use the fact that $E$ can be written as
+    \[ E = \{(x,y,z)|(y,z)\in D, u_1(y,z)\leq x\leq u_2(y,z) \} \]
+    where $D$ is the projection of $E$ onto the $yz$ plane. This allows us to use Fubini's Theorem to rewrite the triple integral as
+    \begin{align*}
+        \iiint\limits_E \pdv{P}{x}\dd V &= \iint\limits_D \bqty{\int_{u_1(y,z)}^{u_2(y,z)}\pdv{P}{x}\dd x}\dd A \\
+        &= \iint\limits_D \bqty{P(u_2(y,z), y, z) - P(u_1(y,z), y, z)}\dd A
+    \end{align*}
+    Returning to the surface integral across $\partial E$, note that because $E$ is a simple solid region, $\partial E$ can be split up into two or three segments, regarding the $yz$ plane as the "floor": $\partial E_1$ which is the bottom surface, $\partial E_2$ which is the top surface, and (in some cases) a vertical surface (with respect to the $yz$ plane)  $\partial E_3$, which connects $\partial E_1$ and $\partial E_2$. On $\partial E_3$, we have a normal vector that is orthogonal to the $x$ axis, which tells us that $\ihat \cdot \vec n$ is zero along $S_3$. Thus, we can remove this part of the surface integral to find
+    \begin{align*}
+        \oiint\limits_{\partial E}(P\ihat \cdot \vec n)\dd S &= \iint\limits_{\partial E_1}(P\ihat \cdot \vec n)\dd S + \iint\limits_{\partial E_2}(P\ihat\cdot\vec n)\dd S +\iint\limits_{\partial E_3}(P\ihat\cdot\vec n)\dd S  \\
+        &= \iint\limits_{\partial E_1}(P\ihat \cdot \vec n)\dd S + \iint\limits_{\partial E_2}(P\jhat\cdot\vec n)\dd S
+    \end{align*}
+    The bottom surface $E_1$ is given by $\{(x,y,z)|(y,z)\in D, x=u_1(y,z)\}$ and the top surface $E_2$ is given by $\{(x,y,z)|(y,z)\in D, x=u_2(y,z)\}$. This allows us to write
+    \begin{align*}
+        \oiint\limits_{\partial E}(P\ihat \cdot \vec n)\dd S &= -\iint\limits_D P(u_1(y,z),y,z)\dd A + \iint\limits_D P(u_2(y,z),y,z)\dd A \\
+        &= \iint\limits_D [P(u_2(y,z),y,z) - P(u_1(y,z),y,z)]\dd A
+    \end{align*}
+    Because $D$ is the projection of both $\partial E_1$ and $\partial E_2$ onto the $yz$ plane, and the first surface integral is negative because the unit normal to $\partial E_1$ points downwards with respect to the $yz$ plane. \par
+    Now, we've shown that 
+    \[ \iiint\limits_E \pdv{P}{x}\dd V = \oiint\limits_{\partial E}(P\ihat \cdot \vec n)\dd S\]
+    Similar arguments using the fact that $E$ is type II and type III can be used to show the other two equalities, thus proving the theorem.
+\end{proof}
+
+\begin{example}
+    Find the flux of the vector field $\vec F = \<z,y,x\>$ over the unit sphere $x^2+y^2+z^2=1$. \par
+    \bf{Solution:} We will use the Divergence Theorem to save us a surface integral computation, and instead just do a triple integral. \par
+    First, we can compute $\div \vec F$,
+    \[ \div \vec F = \pdv{x}z + \pdv{y}y + \pdv{z}x = 1\]
+    and then,
+    \begin{align*}
+        \iiint\limits_E (\div \vec F)\dd V &= \iiint\limits_E \dd V
+    \end{align*}
+    This is just the volume of the sphere of radius $1$, which is $\frac{4\pi}{3}$. By the Divergence Theorem, we then find
+    \[ \oiint\limits_{\partial E} \vec F \cdot \dd \vec S = \frac{4\pi}{3} \]
+\end{example}
+\begin{example}
+    Evaluate $\oiint\limits_{\partial E}\vec F \cdot \dd \vec S$ where
+    \[ \vec F = \< xy, y^2+e^{xz^2}, \sin(xy) \> \]
+    and $E$ is the region bounded by the parabolic cylinder $z=1-x^2$, the planes $z=0$, $y=0$, and $z=2-y$. \par
+    \bf{Solution: }
+    First, computing $\div \vec F$: 
+    \[ \div \vec F = y + 2y = 3y\]
+    Solving for the intersection of $z=1-x^2$ and $z=0$, we find it to be at $x=\pm 1$.\par With this in mind, $E$ can be written as 
+    \[ E = \{ (x,y,z)|x\in[-1, 1], y\in[0, 2-z], z\in[0, 1-x^2]\}\]
+    and then the triple integral can be computed.
+    \begin{align*}
+        \oiint\limits_{\partial E} \vec F\cdot\dd \vec S = \iint\limits_E (\div \vec F)\dd V &= \int_{-1}^1\int_0^{1-x^2}\int_0^{2-z}[3y]\dd y\dd z\dd x \\
+        &= \frac{3}{2}\int_{-1}^1\int_0^{1-x^2} (2-z)^2\dd z\dd x \\
+        &= -\frac{1}{2}\int_{-1}^1[2-z]^3\biggr|_{z=0}^{z=1-x^2}\dd x \\
+        &= -\frac{1}{2}\int_{-1}^1 ([1+x^2]^3 - 8)\dd x \\
+        &= -\int_{-1}^1 (x^6 + 3x^3 + 3x^2 - 7)\dd x = \frac{184}{35}
+    \end{align*}
+\end{example}
+Although we previously only proved the Divergence Theorem for simple solid regions, we can extend it to regions that are the finite union of simple solid regions using a similar procedure to the one we used to extend Green's Theorem to finite unions of simple regions. \par
+For instance, consider a region $E$ that lies between the closed boundary surfaces $\partial E_1$ and $\partial E_2$ where $\partial E_1$ lies inside $\partial E_2$. This gives us the region that lies between these two boundary surfaces. If $\vec n_1$ and $\vec n_2$ are the outward unit normal vectors of the boundary surfaces, we can notice that $\vec n_1$ points \textit{towards} $E$ instead of away from it. This means that when we do our surface integral along $\partial E_1$, we want to use $-\vec n_1$ instead of $\vec n_1$.\par
+Putting this into equation form, we find
+\begin{align*}
+    \iint\limits_E (\div \vec F)\dd V &= \oiint\limits_{\partial E_1 \cup \partial E_2}\vec F \cdot \vec n\dd S \\
+    &= \oiint\limits_{\partial E_1}\vec F \cdot (-\vec n_1)\dd S + \oiint\limits_{\partial E_2}\vec F \cdot \vec n_2\dd S \\
+    &=  -\oiint\limits_{\partial E_1}\vec F \cdot \vec n_1\dd S + \oiint\limits_{\partial E_2}\vec F \cdot \vec n_2\dd
+\end{align*}
+We can now apply this to the electric field, specifically relating to Gauss' Law for electricity. We previously showed that the electric flux through a sphere centered around the origin is $Q/\varepsilon_0$, where $Q$ is the amount of charge at the origin and $\varepsilon_0$ is a constant. \par
+Now, we will seek to apply this to a more general case. Let $\partial E_1$ be a sphere centered around the origin with radius $a$, let $\partial E_2$ be an arbitrary closed boundary, and let $E$ be the region between them. \par
+Recalling that the formula for the electric field is
+\[ \vec E(\vec x) = \frac{1}{4\pi \varepsilon_0}\frac{Q\vec x}{\norm{\vec x}^3}\]
+we can compute $\div \vec E$ to find
+\begin{align*}
+    \div \vec E &= \pdv{x}\bqty{ \frac{1}{4\pi \varepsilon_0}\frac{Qx}{\norm{\vec x}^3}}+\pdv{y}\bqty{ \frac{1}{4\pi \varepsilon_0}\frac{Qy}{\norm{\vec x}^3}}+\pdv{z}\bqty{ \frac{1}{4\pi \varepsilon_0}\frac{Qz}{\norm{\vec x}^3}} \\
+    &= \frac{Q}{4\pi\varepsilon_0}\bqty{\pdv{x}\pqty{ \frac{x}{(x^2+y^2+z^2)^{3/2}}}+\pdv{y}\pqty{\frac{y}{(x^2+y^2+z^2)^{3/2}}}+\pdv{z}\pqty{ \frac{z}{(x^2+y^2+z^2)^{3/2}}}} \\
+    &= \frac{Q}{4\pi\varepsilon_0}\bqty{(x^2+y^2+z^2)^{1/2}}\bqty{\frac{3x^2-(x^2+y^2+z^2)+3y^2-(x^2+y^2+z^2)+3z^2-(x^2+y^2+z^2)}{(x^2+y^2+z^2)^{3/2}}} \\
+    &= \frac{Q}{4\pi\varepsilon_0}\frac{3(x^2+y^2+z^2)-3(x^2+y^2+z^2}{x^2+y^2+z^2} = 0
+\end{align*}
+This tells us that $\iint_E (\div \vec E) = 0$. Using the divergence theorem, we can then state
+\begin{align*}
+    \iint\limits_E (\div \vec E) &= -\oiint\limits_{\partial E_1}\vec E\cdot \vec n_1\dd S+\oiint\limits_{\partial E_2}\vec E\cdot \vec n_2\dd S \\
+    0 &= -\oiint\limits_{\partial E_1}\vec E\cdot \vec n_1\dd S+\oiint\limits_{\partial E_2}\vec E\cdot \vec n_2\dd S
+\end{align*}
+Which can be rearranged to obtain
+\begin{align*}
+    \oiint\limits_{\partial E_1}\vec E\cdot \vec n_1\dd S &= \oiint\limits_{\partial E_2}\vec E\cdot \vec n_2\dd S 
+\end{align*}
+This effectively tells us that the flux across our arbitrary boundary curve $\partial E_2$ is equal to the flux across $\partial E_1$, which know to be the sphere of radius $a$ centered around the origin. Now, we can compute the flux of $\vec E$ across $\partial E_1$. 
+\begin{align*}
+    \Phi_E = \oiint\limits_{\partial E_1}\vec E \cdot \vec n\dd \vec S &= \iint\limits_D \vec E \cdot \<a^2\sin^2\phi\cos\theta, a^2\sin^2\phi\sin\theta, a^2\sin\phi\sin\theta\>\dd A
+\end{align*}
+Which we already computed in a previous example to be equal to $\frac{Q}{\varepsilon_0}$. \par
+Thus, we have shown a slightly more general case of Gauss' Law. The electric flux across any arbitrary surface that encloses the origin, where there is a point charge at the origin (and nowhere else), is equal to the charge divided by $\varepsilon_0$. \par
+Another application of the Divergence Theorem occurs in fluid flow. Let $\vec v(x,y,z)$ be the velocity field of a fluid with constant density $\rho$. Then $\vec F = \rho \vec v$ is the rate of flow per unit area. If $P_0(x_0,y_0,z_0)$ is a point in the fluid and $B_a$ is a ball with center $P_0$ and small radius $a$, then $(\div \vec F)(P) \approx (\div \vec F)(P_0)$ for all $P\in B_a$. We can then approximate the flux over the boundary sphere $\partial B_a$:
+\begin{align*}
+    \oiint\limits_{\partial B_a}\vec F \cdot \dd \vec S &= \iiint\limits_{B_a}(\div \vec F)\dd V \\
+    &\approx \iiint\limits_{B_a} (\div \vec F)(P_0)\dd V \\
+    &= (\div \vec F)(P_0)\iiint\limits_{B_a}\dd V \\
+    &= \frac{4}{3}\pi a^3 (\div \vec F)(P_0)
+\end{align*}
+As $a\to 0$, this approximation becomes better, suggesting that
+\[ (\div \vec F)(P_0) = \lim_{a\to 0}\frac{3}{4\pi a^3}\oiint\limits_{\partial B_a}\vec F\cdot \dd \vec S\]
+Because the flux is equal to the flow rate per unit area, This equation is saying that $(\div \vec F)(P_0)$ represents the flow rate per unit volume at $P_0$. If $(\div \vec F)(P_0)>0$, then fluid is attempting to flow away from $P_0$ under $\vec v$, and $P_0$ is called as \bf{source}. If $(\div \vec F)(P_0)<0$, then fluid is attempting to flow into $P_0$ under $\vec v$, and $P_0$ is called a \bf{sink}. \par
+This is the end of the notes. banger
+\end{document}
